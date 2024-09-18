@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect, abort
+from flask import Flask, url_for, redirect, abort, make_response
 from werkzeug.exceptions import HTTPException
 
 class PaymentRequired(HTTPException):
@@ -235,6 +235,84 @@ def created():
 </html>
 ''', 201
 
+
+
+@app.route('/custom-page')
+def custom_page():
+    # Путь к картинке
+    image_url = url_for('static', filename='Flask.png')
+    # Текст для страницы
+    page_content = '''
+    <!doctype html>
+    <html>
+        <head>
+            <title>Кастомная страница</title>
+            <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                }}
+                img {{
+                    max-width: 100%;
+                    height: auto;
+                }}
+                .content {{
+                    margin: 20px;
+                }}
+            </style>
+        </head>
+        <body>
+            <header>
+                <h1>Добро пожаловать на кастомную страницу</h1>
+            </header>
+            <div class="content">
+                <p>
+                    Это пример страницы, которая демонстрирует работу с несколькими
+                    абзацами текста. Веб-разработка может быть увлекательной и интересной, особенно
+                    когда вы создаете что-то новое и функциональное.
+                </p>
+                <p>
+                    Flask является мощным и гибким микрофреймворком для создания веб-приложений
+                    на Python. Он предоставляет разработчикам возможность быстро и эффективно создавать
+                    веб-сервисы, не перегружая их сложными библиотеками.
+                </p>
+                <p>
+                    Помимо работы с текстом, веб-страницы часто содержат изображения, которые
+                    делают их более привлекательными для пользователей. В нашем случае это пример
+                    изображения ниже:
+                </p>
+                <img src="{image_url}" alt="Пример изображения">
+                <p>
+                    Этот текст демонстрирует работу с несколькими абзацами и изображениями,
+                    а также добавление кастомных заголовков в ответ сервера.
+                </p>
+            </div>
+            <footer>
+                <p>ФИО: Афанасов Геракл Георгиевич</p>
+                <p>Группа: ФБИ-22</p>
+                <p>Год: 2023</p>
+            </footer>
+        </body>
+    </html>
+    '''.format(image_url=image_url)
+
+    # Создаем ответ и добавляем заголовки
+    response = make_response(page_content)
+    
+    # Добавляем заголовок Content-Language
+    response.headers['Content-Language'] = 'ru'
+    
+    # Добавляем два своих нестандартных заголовка
+    response.headers['X-Custom-Header-1'] = 'MyCustomHeaderValue1'
+    response.headers['X-Custom-Header-2'] = 'MyCustomHeaderValue2'
+
+    return response
+
+
+
+
+#Обработчики ошибок
+
 @app.errorhandler(400)
 def bad_request(err):
     css_path = url_for("static", filename="lab1.css")
@@ -428,6 +506,9 @@ def error_500():
 @app.errorhandler(500)
 def internal_server_error(err):
     return "Ошибка 500: Внутренняя ошибка сервера. Пожалуйста, попробуйте позже.", 500
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
