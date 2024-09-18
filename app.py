@@ -326,6 +326,7 @@ def forbidden(err):
 
 @app.errorhandler(404)
 def not_found(err):
+    path = url_for("static", filename="404.jpg")
     css_path = url_for("static", filename="lab1.css")
     return f'''
 <!doctype html>
@@ -337,7 +338,8 @@ def not_found(err):
         <header>
             <h1>Ошибка 404</h1>
         </header>
-        <p>нет такой страницы</p>
+        <p>нет такой страницы, больше сюда не заходи</p>
+        <img src="{path}" alt="нет такой страницы">
         <footer>
             <p>ФИО: Афанасов Геракл Георгиевич</p>
             <p>Группа: ФБИ-22</p>
@@ -407,6 +409,10 @@ def error_402():
 @app.route('/error403')
 def error_403():
     abort(403)  # Вызов ошибки 403
+
+@app.route('/error404')
+def error_404():
+    abort(404)  # Вызов ошибки 404
 
 @app.route('/error405')
 def error_405():
