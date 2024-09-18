@@ -3,7 +3,7 @@ from werkzeug.exceptions import HTTPException
 
 class PaymentRequired(HTTPException):
     code = 402
-    description = "Необходима оплата (Payment Required)" #без явного создания класса будет выходить ошибка, ведь 402 - нестандартная ошибка
+    description = "Необходима оплата (Payment Required)"  # 402 нестандартная ошибка
 
 
 app = Flask(__name__)
@@ -11,7 +11,7 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/index")
 def index():
-    lab1_url = url_for("start")
+    lab1_url = url_for("lab1")
     css_path = url_for("static", filename="lab1.css")
     return f'''
 <!doctype html>
@@ -41,12 +41,68 @@ def index():
 def lab1():
     css_path = url_for("static", filename="lab1.css")
     root_url = url_for("index")
+    routes = [
+        ('lab1', url_for('lab1')),
+        ('Автор', url_for('author')),
+        ('Web', url_for('start')),
+        ('Счетчик', url_for('counter')),
+        ('Сброс счетчика', url_for('reset_counter')),
+        ('Info', url_for('info')),
+        ('Oak', url_for('oak')),
+        ('Created', url_for('created')),
+        ('Custom Page', url_for('custom_page')),
+        ('Ошибка 400', url_for('error_400')),
+        ('Ошибка 401', url_for('error_401')),
+        ('Ошибка 402', url_for('error_402')),
+        ('Ошибка 403', url_for('error_403')),
+        ('Ошибка 404', url_for('error_404')),
+        ('Ошибка 405', url_for('error_405')),
+        ('Ошибка 500', url_for('error_500')),
+    ]
+    table_rows = ''.join([f'<tr><td>{name}</td><td><a href="{url}" style="color: blue;">{url}</a></td></tr>' for name, url in routes])
+    
     return f'''
 <!doctype html>
 <html>
     <head>
         <title>Лабораторная 1</title>
         <link rel="stylesheet" type="text/css" href="{css_path}">
+        <style>
+            body {{
+                background-color: white;
+                color: black;
+                font-family: Arial, sans-serif;
+            }}
+            table {{
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }}
+            th, td {{
+                border: 1px solid black;
+                padding: 10px;
+                text-align: left;
+            }}
+            th {{
+                background-color: #000080;
+                color: white;
+            }}
+            tr:nth-child(even) {{
+                background-color: #f2f2f2;
+            }}
+            a {{
+                color: blue;
+                text-decoration: none;
+            }}
+            a:hover {{
+                text-decoration: underline;
+            }}
+            footer {{
+                margin-top: 50px;
+                text-align: center;
+                font-size: 12px;
+            }}
+        </style>
     </head>
     <body>
         <header>
@@ -55,11 +111,21 @@ def lab1():
         <p>
             Flask — фреймворк для создания веб-приложений на языке
             программирования Python, использующий набор инструментов
-            Werkzeug, а также шаблонизатор Jinja2. Относится к категории так
-            называемых микрофреймворков — минималистичных каркасов
-            веб-приложений, сознательно предоставляющих лишь самые базовые возможности.
+            Werkzeug, а также шаблонизатор Jinja2.
         </p>
-        <a href="{root_url}">Вернуться на главную</a>
+        <a href="{root_url}" style="color: blue;">Вернуться на главную</a>
+        <h2>Список роутов</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Название маршрута</th>
+                    <th>Ссылка</th>
+                </tr>
+            </thead>
+            <tbody>
+                {table_rows}
+            </tbody>
+        </table>
         <footer>
             <p>ФИО: Афанасов Геракл Георгиевич</p>
             <p>Группа: ФБИ-22</p>
