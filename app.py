@@ -419,6 +419,15 @@ def error_405():
     abort(405)  # Вызов ошибки 405
 
 
+@app.route('/error500')
+def error_500():
+    result = 1 / 0  # Это вызовет ZeroDivisionError
+    return str(result)
+
+# Перехватчик для ошибки 500 с сообщением на русском языке
+@app.errorhandler(500)
+def internal_server_error(err):
+    return "Ошибка 500: Внутренняя ошибка сервера. Пожалуйста, попробуйте позже.", 500
 
 if __name__ == "__main__":
     app.run(debug=True)
