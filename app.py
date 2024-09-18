@@ -1,9 +1,9 @@
 from flask import Flask, url_for, redirect
 
-app=Flask(__name__)
+app = Flask(__name__)
 
 @app.route("/")
-@app.route("/web")
+@app.route("/lab1/web")
 def start():
     return   """<!doctype html> 
     <html> 
@@ -15,7 +15,7 @@ def start():
         'Content-Type': 'text/plain; charset=utf-8'
     }
 
-@app.route("/author")
+@app.route("/lab1/author")
 def author():
     name = "Афанасов Геракл Георгиевич"
     group = "ФБИ-22"
@@ -27,7 +27,7 @@ def author():
                 <p>Студент: """ + name + """</p>
                 <p>Группа: """ + group + """</p>
                 <p>Факультет: """ + faculty + """</p>
-                <a href="/web">web</a>
+                <a href="/lab1/web">web</a>
             </body>
         </html>"""
 
@@ -82,9 +82,9 @@ def reset_counter():
 </html>
 '''
 
-@app.route("/info")
+@app.route("/lab1/info")
 def info():
-    return redirect("/author")
+    return redirect(url_for("author"))
 
 @app.route("/created")
 def created():
@@ -101,8 +101,6 @@ def created():
 @app.errorhandler(404)
 def not_found(err):
     return "нет такой страницы", 404
-
-
 
 
 if __name__ == "__main__":
