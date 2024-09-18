@@ -41,5 +41,22 @@ def oak():
 </html>    
 '''
 
+count = 0
+
+@app.route("/lab1/counter")
+def counter():
+    global count  # Указываем, что используем глобальную переменную
+    count += 1
+    return '''
+<!doctype html> 
+<html>
+    <body>
+        Сколько раз вы сюда заходили:  ''' + str(count) + '''
+    </body>
+</html>
+'''
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
