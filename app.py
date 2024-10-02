@@ -565,7 +565,7 @@ def error_405():
 
 @app.route('/error500')
 def error_500():
-    result = 1 / 0  # Это вызовет ZeroDivisionError
+    result = 1 / 0  
     return str(result)
 
 # Перехватчик для ошибки 500 с сообщением на русском языке
@@ -575,6 +575,22 @@ def internal_server_error(err):
 
 
 
+
+
+
+
+
+
+
+
+
+@app.route('/lab2/a')
+def a():
+    return 'без слеша'
+
+@app.route('/lab2/a/')
+def a2():
+    return 'со слешем'
 
 if __name__ == "__main__":
     app.run(debug=True)
