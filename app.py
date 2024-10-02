@@ -12,6 +12,7 @@ app = Flask(__name__)
 @app.route("/index")
 def index():
     lab1_url = url_for("lab1")
+    lab2_url = url_for("lab2")
     css_path = url_for("static", filename="lab1.css")
     return f'''
 <!doctype html>
@@ -26,6 +27,7 @@ def index():
         </header>
         <ul>
             <li><a href="{lab1_url}">Первая лабораторная</a></li>
+            <li><a href="{lab2_url}">Вторая лабораторная</a></li>
         </ul>
         <footer>
             <p>ФИО: Афанасов Геракл Георгиевич</p>
@@ -660,7 +662,11 @@ def calc(a, b):
     return render_template('calc.html', a=a, b=b, sum_result=sum_result, diff_result=diff_result, prod_result=prod_result, div_result=div_result, pow_result=pow_result)
 
 
-books = [
+
+
+@app.route('/lab2/books')
+def list_books():
+    books = [
     {"author": "Джордж Оруэлл", "title": "1984", "genre": "Научная фантастика", "pages": 328},
     {"author": "Рэй Брэдбери", "title": "451 градус по Фаренгейту", "genre": "Научная фантастика", "pages": 158},
     {"author": "Федор Достоевский", "title": "Преступление и наказание", "genre": "Роман", "pages": 671},
@@ -671,11 +677,21 @@ books = [
     {"author": "Роберт Грин", "title": "48 законов власти", "genre": "Саморазвитие", "pages": 496},
     {"author": "Стивен Кинг", "title": "Оно", "genre": "Ужасы", "pages": 1138},
     {"author": "Агата Кристи", "title": "Убийство в Восточном экспрессе", "genre": "Детектив", "pages": 256}
-]
-
-@app.route('/lab2/books')
-def list_books():
+    ]
     return render_template('books.html', books=books)
 
+
+
+
+@app.route('/lab2/berries')
+def list_berries():
+    berries = [
+    {"name": "Клубника", "description": "Сладкая и сочная ягода, популярная в десертах.", "image": "strawberry.jpg"},
+    {"name": "Черника", "description": "Меньше по размеру, чем Голубика, но с более интенсивным вкусом.", "image": "blueberry.jpg"},
+    {"name": "Ежевика", "description": "Спелая ежевика имеет сладкий вкус и используется в варенье и компотах.", "image": "blackberry.png"},
+    {"name": "Голубика", "description": "Богатая антиоксидантами ягода, используемая в салатах и десертах.", "image": "cranberry.jpg"},
+    {"name": "Малина", "description": "Сладкая и кислая ягода, популярная в десертах и напитках.", "image": "raspberry.jpg"}
+    ]
+    return render_template('berries.html', berries=berries)
 if __name__ == "__main__":
     app.run(debug=True)

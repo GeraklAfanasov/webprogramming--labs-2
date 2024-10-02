@@ -5,13 +5,13 @@
 {% block lab_header %}Лабораторная работа 2{% endblock %}
 
 {% block content %}
-    <h1>Лабораторная работа 2</h1>
+
 
     <h2>Примеры работы с цветами</h2>
     <ul>
-        <li><a href="{{ url_for('add_flower', name='Каталея') }}">Добавить цветок</a></li>
+        <li><a href="{{ url_for('add_flower', name='Новый цветок') }}">Добавить цветок</a></li>
         <li><a href="{{ url_for('list_flowers') }}">Посмотреть все цветы</a></li>
-        <li><a href="{{ url_for('flower', flower_id=1) }}">Посмотреть конкретный цветок</a></li>
+        <li><a href="{{ url_for('flower', flower_id=0) }}">Посмотреть конкретный цветок</a></li>
         <li><a href="{{ url_for('clear_flowers') }}">Очистить список цветов</a></li>
     </ul>
 
@@ -21,15 +21,24 @@
     </ul>
 
     <h2>Вычисления</h2>
-    <p>11 * 28 = {{ 11 * 28 }}</p>
-    <p>3258 - 759 = {{ 3258 - 759 }}</p>
-    <p>8452 / 793 = {{ 8452 / 793 }}</p>
-    <p>45<sup>8</sup> = {{ 45 ** 8 }}</p>
+    <ul>
+        <li><a href="{{ url_for('calc_default') }}">Калькулятор</a></li>
+    </ul>
 
     <h2>Список фруктов</h2>
     <ul>
         {% for fruit in fruits %}
             <li>{{ loop.index }}. {{ fruit.name }} - {{ fruit.price }} ₽</li>
         {% endfor %}
+    </ul>
+
+    <h2>Список ягод</h2>
+    <ul>
+        <li><a href="{{ url_for('list_berries') }}">Посмотреть список ягод</a></li>
+    </ul>
+
+    <h2>Список книг</h2>
+    <ul>
+        <li><a href="{{ url_for('list_books') }}">Посмотреть список книг</a></li>
     </ul>
 {% endblock %}
