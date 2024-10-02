@@ -3,12 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Геракл Афанасов. Лабораторная работа {{lab_num}}</title>
+    <title>
+        {% if name %}
+            {{ name }}.
+        {% else %}
+            Анонимус.
+        {% endif %}
+        Лабораторная работа 
+        {% if lab_num %}
+            {{ lab_num }}
+        {% else %}
+            неизвестная
+        {% endif %}
+    </title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
     <header>
-        WEB-программирование, часть 2. Лабораторная работа {{lab_num}}
+        WEB-программирование, часть 2. 
+        {% if lab_num %}
+            Лабораторная работа {{ lab_num }}
+        {% else %}
+            Лабораторная работа неизвестная
+        {% endif %}
     </header>
     
     <main>
@@ -19,7 +36,22 @@
     </main>
     
     <footer>
-        &copy; {{name}}, {{group}}, {{curs_num}} курс, 2024
+        &copy; 
+        {% if name %}
+            {{ name }}
+        {% else %}
+            Анонимус
+        {% endif %}, 
+        {% if group %}
+            {{ group }}
+        {% else %}
+            неизвестная группа
+        {% endif %}, 
+        {% if curs_num %}
+            {{ curs_num }} курс
+        {% else %}
+            неизвестный курс
+        {% endif %}, 2024
     </footer>
 </body>
 </html>
