@@ -642,6 +642,23 @@ def filter_example():
     phrase = "сколько нам открытий чудных готовит просвещенья дух"
     return render_template('filter.html', phrase=phrase)
 
+@app.route('/lab2/calc/')
+def calc_default():
+    return redirect(url_for('calc', a=1, b=1))
+
+@app.route('/lab2/calc/<int:a>')
+def calc_single(a):
+    return redirect(url_for('calc', a=a, b=1))
+
+@app.route('/lab2/calc/<int:a>/<int:b>')
+def calc(a, b):
+    sum_result = a + b
+    diff_result = a - b
+    prod_result = a * b
+    div_result = a / b if b != 0 else 'Ошибка: деление на ноль'
+    pow_result = a ** b
+    return render_template('calc.html', a=a, b=b, sum_result=sum_result, diff_result=diff_result, prod_result=prod_result, div_result=div_result, pow_result=pow_result)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
