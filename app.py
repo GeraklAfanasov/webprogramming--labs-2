@@ -633,5 +633,11 @@ def example():
     return render_template('lab2.html', name=name, lab_num=lab_num, curs_num=curs_num, group=group, fruits=fruits)
 
 
+@app.route('/lab2/filter')
+def filter_example():
+    phrase = "О <b>сколько</b> <u>нам</n> <i>открытий</i> чудных ..."
+    return render_template('filter.html', phrase=phrase)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
