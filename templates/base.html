@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% if name %}
+            {{ name }}.
+        {% else %}
+            Анонимус.
+        {% endif %}
+        {% block lab %}{% endblock %}
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <header>
+        WEB-программирование, часть 2. 
+        {% block lab_header %}{% endblock %}
+    </header>
+    
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <footer>
+        &copy; 
+        {% if name %}
+            {{ name }}
+        {% else %}
+            Анонимус
+        {% endif %}, 
+        {% if group %}
+            {{ group }}
+        {% else %}
+            неизвестная группа
+        {% endif %}, 
+        {% if curs_num %}
+            {{ curs_num }} курс
+        {% else %}
+            неизвестный курс
+        {% endif %}, 2024
+    </footer>
+</body>
+</html>

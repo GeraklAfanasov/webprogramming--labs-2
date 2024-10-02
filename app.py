@@ -618,7 +618,7 @@ def add_flower(name):
         </ul>
     """, name=name, total_flowers=len(flowers), flowers=flowers)
 
-@app.route('/lab2/example')
+@app.route('/lab2/')
 def example():
     name = 'Афанасов Геракл'
     lab_num = '2'
@@ -630,7 +630,8 @@ def example():
         {'name': 'Апельсин', 'price': 120},
         {'name': 'Манго', 'price': 200}
     ]
-    return render_template('example.html', name=name, lab_num=lab_num, curs_num=curs_num, group=group, fruits=fruits)
+    return render_template('lab2.html', name=name, lab_num=lab_num, curs_num=curs_num, group=group, fruits=fruits)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
