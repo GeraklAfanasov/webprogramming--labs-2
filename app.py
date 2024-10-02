@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect, abort, make_response, render_template_string, render_template
+from flask import Flask, url_for, redirect, abort, make_response, render_template_string, render_template, request
 from werkzeug.exceptions import HTTPException
 
 class PaymentRequired(HTTPException):
@@ -595,15 +595,21 @@ def a2():
     return 'со слешем'
 
 
-flowers = ['Роза', 'Тюльпан', 'Подсолнух', 'Лилия']
+flowers = [
+    {"name": "Роза", "price": 100},
+    {"name": "Тюльпан", "price": 70},
+    {"name": "Подсолнух", "price": 50},
+    {"name": "Лилия", "price": 80}
+]
 
-@app.route('/lab2/add_flower/')
-@app.route('/lab2/add_flower/<name>')
-def add_flower(name=None):
-    if name is None:
-        abort(400, "Вы не задали имя цветка")
-    flowers.append(name)
-    return render_template('add_flower.html', name=name, total_flowers=len(flowers), flowers=flowers)
+@app.route('/lab2/add_flower/', methods=['GET', 'POST'])
+def add_flower():
+    if request.method == 'POST':
+        name = request.form['name']
+        price = int(request.form['price'])
+        flowers.append({"name": name, "price": price})
+        return redirect(url_for('list_flowers'))
+    return render_template('add_flower.html')
 
 @app.route('/lab2/flowers')
 def list_flowers():
@@ -619,11 +625,16 @@ def flower(flower_id):
 def clear_flowers():
     global flowers
     flowers = []
-    return render_template('clear_flowers.html', flowers=flowers)
+    return redirect(url_for('list_flowers'))
 
-@app.errorhandler(400)
-def bad_request(err):
-    return f"Ошибка 400: {err.description}", 400
+@app.route('/lab2/delete_flower/<int:flower_id>')
+def delete_flower(flower_id):
+    if 0 <= flower_id < len(flowers):
+        del flowers[flower_id]
+        return redirect(url_for('list_flowers'))
+    return 'Нет такого цветка', 404
+
+
 
 @app.route('/lab2/')
 def lab2():
