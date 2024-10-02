@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Цветок добавлен</title>
+</head>
+<body>
+    <h1>Цветок добавлен</h1>
+    <p>Добавлен цветок: {{ name }}</p>
+    <p>Всего цветов: {{ total_flowers }}</p>
+    <h2>Полный список цветов</h2>
+    <ul>
+        {% for flower in flowers %}
+            <li>{{ flower }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('list_flowers') }}">Посмотреть все цветы</a>
+</body>
+</html>
