@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect, abort, make_response
+from flask import Flask, url_for, redirect, abort, make_response, render_template_string
 from werkzeug.exceptions import HTTPException
 
 class PaymentRequired(HTTPException):
@@ -599,6 +599,24 @@ def flower(flower_id):
     if 0 <= flower_id < len(flowers):
         return f"Flower: {flowers[flower_id]}"
     return 'No such flower', 404
+
+
+flowers = ['Rose', 'Tulip', 'Sunflower', 'Lily']
+
+@app.route('/lab2/add_flower/<name>')
+def add_flower(name):
+    flowers.append(name)
+    return render_template_string("""
+        <h1>Цветок добавлен</h1>
+        <p>Добавлен цветок: {{ name }}</p>
+        <p>Всего цветов: {{ total_flowers }}</p>
+        <h2>Полный список цветов</h2>
+        <ul>
+            {% for flower in flowers %}
+                <li>{{ flower }}</li>
+            {% endfor %}
+        </ul>
+    """, name=name, total_flowers=len(flowers), flowers=flowers)
 
 
 
