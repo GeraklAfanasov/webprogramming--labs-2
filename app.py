@@ -592,5 +592,15 @@ def a():
 def a2():
     return 'со слешем'
 
+
+@app.route('/lab2/flowers/<int:flower_id>')
+def flower(flower_id):
+    flowers = ['Rose', 'Tulip', 'Sunflower', 'Lily']
+    if 0 <= flower_id < len(flowers):
+        return f"Flower: {flowers[flower_id]}"
+    return 'No such flower', 404
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
