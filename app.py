@@ -159,3 +159,6 @@ def method_not_allowed(err):
 @app.errorhandler(500)
 def internal_server_error(err):
     return "Ошибка 500: Внутренняя ошибка сервера. Пожалуйста, попробуйте позже.", 500
+
+if __name__ == "__main__":
+    app.run(debug=True)

@@ -1,5 +1,4 @@
-from flask import Blueprint, render_template, make_response, redirect, url_for, request
-import time
+from flask import Blueprint, render_template, request, redirect, url_for
 
 lab3 = Blueprint('lab3', __name__)
 
@@ -62,3 +61,41 @@ def form1():
         sex_ru = 'Женский'
 
     return render_template('lab3/form1.html', user=user, age=age, sex=sex, sex_ru=sex_ru, errors=errors)
+
+@lab3.route('/lab3/order', methods=['GET', 'POST'])
+def order():
+    if request.method == 'POST':
+        drink = request.form.get('drink')
+        milk = 'milk' in request.form
+        sugar = 'sugar' in request.form
+
+        price = 0
+        if drink == 'coffee':
+            price = 120
+        elif drink == 'black-tea':
+            price = 80
+        elif drink == 'green-tea':
+            price = 70
+
+        if milk:
+            price += 30
+        if sugar:
+            price += 10
+
+        return render_template('lab3/pay.html', price=price)
+
+    return render_template('lab3/order.html')
+
+@lab3.route('/lab3/pay', methods=['GET', 'POST'])
+def pay():
+    if request.method == 'POST':
+        card_number = request.form.get('card')
+        card_name = request.form.get('name')
+        card_cvv = request.form.get('cvv')
+
+        # Здесь можно добавить логику проверки данных карты
+
+        return render_template('lab3/success.html', price=request.form.get('price'))
+
+    price = request.args.get('price')
+    return render_template('lab3/pay.html', price=price)
