@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, make_response
 
 lab3 = Blueprint('lab3', __name__)
 
@@ -99,3 +99,26 @@ def pay():
 
     price = request.args.get('price')
     return render_template('lab3/pay.html', price=price)
+
+@lab3.route('/lab3/settings', methods=['GET', 'POST'])
+def settings():
+    color = request.cookies.get('color')
+    background_color = request.cookies.get('background_color')
+    font_size = request.cookies.get('font_size')
+
+    if request.method == 'POST':
+        new_color = request.form.get('color')
+        new_background_color = request.form.get('background_color')
+        new_font_size = request.form.get('font_size')
+
+        response = make_response(redirect(url_for('lab3.settings')))
+        if new_color:
+            response.set_cookie('color', new_color)
+        if new_background_color:
+            response.set_cookie('background_color', new_background_color)
+        if new_font_size:
+            response.set_cookie('font_size', new_font_size + 'px')  # Добавляем 'px' к значению размера шрифта
+
+        return response
+
+    return render_template('lab3/settings.html', color=color, background_color=background_color, font_size=font_size)

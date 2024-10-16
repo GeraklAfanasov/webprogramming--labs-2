@@ -13,6 +13,13 @@
     </title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <style>
+        body {
+            color: {{ request.cookies.get('color') or 'black' }};
+            background-color: {{ request.cookies.get('background_color') or 'white' }};
+            font-size: {{ request.cookies.get('font_size') or '16px' }};
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -21,9 +28,9 @@
         {% block lab_header %}{% endblock %}</h1>
     </header>
     
-    <maxin>
+    <main>
         {% block content %}{% endblock %}
-    </maxin>
+    </main>
     
     <footer>
         &copy; 
