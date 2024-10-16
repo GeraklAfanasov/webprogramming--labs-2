@@ -4,9 +4,10 @@ lab3 = Blueprint('lab3', __name__)
 
 @lab3.route('/lab3/')
 def lab3_main():
-    name = request.cookies.get('name')
+    name = request.cookies.get('name') or 'аноним'
+    age = request.cookies.get('age') or 'неизвестный'
     name_color = request.cookies.get('name_color')
-    return render_template('lab3/lab3.html', name=name, name_color=name_color)
+    return render_template('lab3/lab3.html', name=name, age=age, name_color=name_color)
 
 @lab3.route('/lab3/cookie/', methods=['GET', 'POST'])
 def set_cookie():
@@ -122,3 +123,57 @@ def settings():
         return response
 
     return render_template('lab3/settings.html', color=color, background_color=background_color, font_size=font_size)
+
+@lab3.route('/lab3/clear_all_cookies/')
+def clear_all_cookies():
+    response = make_response(redirect(url_for('lab3.lab3_main')))
+    response.delete_cookie('name')
+    response.delete_cookie('age')
+    response.delete_cookie('name_color')
+    response.delete_cookie('color')
+    response.delete_cookie('background_color')
+    response.delete_cookie('font_size')
+    return response
+
+@lab3.route('/lab3/ticket', methods=['GET', 'POST'])
+def ticket():
+    if request.method == 'POST':
+        fio = request.form.get('fio')
+        age = int(request.form.get('age'))
+        bunk = request.form.get('bunk')
+        bedding = 'bedding' in request.form
+        baggage = 'baggage' in request.form
+        departure = request.form.get('departure')
+        destination = request.form.get('destination')
+        date = request.form.get('date')
+        insurance = 'insurance' in request.form
+
+        errors = {}
+        if not fio:
+            errors['fio'] = 'Заполните поле!'
+        if age < 1 or age > 120:
+            errors['age'] = 'Возраст должен быть от 1 до 120 лет!'
+        if not departure:
+            errors['departure'] = 'Заполните поле!'
+        if not destination:
+            errors['destination'] = 'Заполните поле!'
+        if not date:
+            errors['date'] = 'Заполните поле!'
+
+        if errors:
+            return render_template('lab3/ticket_form.html', errors=errors)
+
+        base_price = 700 if age < 18 else 1000
+        if bunk in ['lower', 'lower_side']:
+            base_price += 100
+        if bedding:
+            base_price += 75
+        if baggage:
+            base_price += 250
+        if insurance:
+            base_price += 150
+
+        return render_template('lab3/ticket.html', fio=fio, age=age, bunk=bunk, bedding=bedding, baggage=baggage, departure=departure, destination=destination, date=date, insurance=insurance, price=base_price)
+
+    # При GET-запросе передаем пустой словарь errors
+    return render_template('lab3/ticket_form.html', errors={})
