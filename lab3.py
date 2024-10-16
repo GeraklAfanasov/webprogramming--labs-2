@@ -47,9 +47,13 @@ def clear_cookies():
 
 @lab3.route('/lab3/form1', methods=['GET'])
 def form1():
-    user = request.args.get('user')
-    age = request.args.get('age')
-    sex = request.args.get('sex')
+    user = request.args.get('user') or ''
+    age = request.args.get('age') or ''
+    sex = request.args.get('sex') or ''
+
+    errors = {}
+    if not user:
+        errors['user'] = 'Заполните поле!'
 
     sex_ru = 'Не указан'
     if sex == 'male':
@@ -57,4 +61,4 @@ def form1():
     elif sex == 'female':
         sex_ru = 'Женский'
 
-    return render_template('lab3/form1.html', user=user, age=age, sex_ru=sex_ru)
+    return render_template('lab3/form1.html', user=user, age=age, sex=sex, sex_ru=sex_ru, errors=errors)
