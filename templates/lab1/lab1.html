@@ -7,7 +7,7 @@
 {% block content %}
     <head>
         <title>Лабораторная 1</title>
-        <link rel="stylesheet" type="text/css" href="{{ css_path }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static/lab1/main.css') }}">
         <style>
             body {
                 background-color: white;
@@ -54,7 +54,7 @@
             программирования Python, использующий набор инструментов
             Werkzeug, а также шаблонизатор Jinja2.
         </p>
-        <a href="{{ root_url }}" style="color: blue;">Вернуться на главную</a>
+        <a href="{{ url_for('index') }}" style="color: blue;">Вернуться на главную</a>
         <h2>Список роутов</h2>
         <table>
             <thead>

@@ -9,7 +9,7 @@ class PaymentRequired(HTTPException):
 
 @lab1.route("/lab1")
 def lab1_main():
-    css_path = url_for("static", filename="lab1.css")
+    css_path = url_for("static", filename="lab1/main.css")
     root_url = url_for("index")
     routes = [
         ('lab1', url_for('lab1.lab1_main')),
@@ -33,8 +33,8 @@ def lab1_main():
 
 @lab1.route("/lab1/web")
 def start():
-    css_path = url_for("static", filename="lab1.css")
-    return render_template('lab1/start.html', css_path=css_path), 200, {
+    css_path = url_for("static", filename="/lab1/lab1.css")
+    return render_template('/lab1/start.html', css_path=css_path), 200, {
         'X-Server': 'sample',
         'Content-Type': 'text/plain; charset=utf-8'
     }
@@ -44,13 +44,13 @@ def author():
     name = "Афанасов Геракл Георгиевич"
     group = "ФБИ-22"
     faculty = "ФБ"
-    css_path = url_for("static", filename="lab1.css")
-    return render_template('lab1/author.html', name=name, group=group, faculty=faculty, css_path=css_path)
+    css_path = url_for("static", filename="/lab1/lab1.css")
+    return render_template('/lab1/author.html', name=name, group=group, faculty=faculty, css_path=css_path)
 
 @lab1.route("/lab1/oak")
 def oak():
-    path = url_for("static", filename="oak.jpg")
-    css_path = url_for("static", filename="lab1.css")
+    path = url_for("static", filename="lab1/oak.jpg")
+    css_path = url_for("static", filename="lab1/main.css")
     return render_template('lab1/oak.html', path=path, css_path=css_path)
 
 count = 0
@@ -60,7 +60,7 @@ def counter():
     global count  
     count += 1
     reset_url = url_for("lab1.reset_counter")
-    css_path = url_for("static", filename="lab1.css")
+    css_path = url_for("static", filename="lab1/main.css")
     return render_template('lab1/counter.html', count=count, reset_url=reset_url, css_path=css_path)
 
 @lab1.route("/lab1/reset_counter")
@@ -68,7 +68,7 @@ def reset_counter():
     global count 
     count = 0 
     counter_url = url_for("lab1.counter")
-    css_path = url_for("static", filename="lab1.css")
+    css_path = url_for("static", filename="lab1/main.css")
     return render_template('lab1/reset_counter.html', counter_url=counter_url, css_path=css_path)
 
 @lab1.route("/lab1/info")
@@ -77,13 +77,13 @@ def info():
 
 @lab1.route("/created")
 def created():
-    css_path = url_for("static", filename="lab1.css")
+    css_path = url_for("static", filename="lab1/main.css")
     return render_template('lab1/created.html', css_path=css_path), 201
 
 @lab1.route('/custom-page')
 def custom_page():
     # Путь к картинке
-    image_url = url_for('static', filename='Flask.png')
+    image_url = url_for('static', filename='lab1/Flask.png')
     # Текст для страницы
     page_content = render_template('lab1/custom_page.html', image_url=image_url)
 
