@@ -1,20 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список цветов</title>
-</head>
-<body>
-    <h1>Список цветов</h1>
-    <ul>
-        {% for flower in flowers %}
-            <li>{{ flower.name }} - {{ flower.price }} ₽
-                <a href="{{ url_for('delete_flower', flower_id=loop.index0) }}">Удалить</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="{{ url_for('add_flower') }}">Добавить цветок</a>
-    <a href="{{ url_for('clear_flowers') }}">Удалить все цветы</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Список цветов</h1>
+<ul>
+    {% for flower in flowers %}
+    <li>
+        {{ flower.name }} - {{ flower.price }} руб.
+        <a href="{{ url_for('lab2.flower', flower_id=loop.index0) }}">Подробнее</a>
+        <a href="{{ url_for('lab2.delete_flower', flower_id=loop.index0) }}">Удалить</a>
+    </li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('lab2.add_flower') }}">Добавить цветок</a>
+<a href="{{ url_for('lab2.clear_flowers') }}">Очистить список цветов</a>
+{% endblock %}

@@ -7,20 +7,20 @@
 {% block content %}
     <h2>Примеры работы с цветами</h2>
     <ul>
-        <li><a href="{{ url_for('add_flower', name='Новый цветок') }}">Добавить цветок</a></li>
-        <li><a href="{{ url_for('list_flowers') }}">Посмотреть все цветы</a></li>
-        <li><a href="{{ url_for('flower', flower_id=0) }}">Посмотреть конкретный цветок</a></li>
-        <li><a href="{{ url_for('clear_flowers') }}">Очистить список цветов</a></li>
+        <li><a href="{{ url_for('lab2.add_flower', name='Новый цветок') }}">Добавить цветок</a></li>
+        <li><a href="{{ url_for('lab2.list_flowers') }}">Посмотреть все цветы</a></li>
+        <li><a href="{{ url_for('lab2.flower', flower_id=0) }}">Посмотреть конкретный цветок</a></li>
+        <li><a href="{{ url_for('lab2.clear_flowers') }}">Очистить список цветов</a></li>
     </ul>
 
     <h2>Примеры работы с фильтрами</h2>
     <ul>
-        <li><a href="{{ url_for('filter_example') }}">Пример использования фильтров</a></li>
+        <li><a href="{{ url_for('lab2.filter_example') }}">Пример использования фильтров</a></li>
     </ul>
 
     <h2>Вычисления</h2>
     <ul>
-        <li><a href="{{ url_for('calc_default') }}">Калькулятор</a></li>
+        <li><a href="{{ url_for('lab2.calc_default') }}">Калькулятор</a></li>
     </ul>
 
     <h2>Список фруктов</h2>
@@ -32,11 +32,11 @@
 
     <h2>Список ягод</h2>
     <ul>
-        <li><a href="{{ url_for('list_berries') }}">Посмотреть список ягод</a></li>
+        <li><a href="{{ url_for('lab2.list_berries') }}">Посмотреть список ягод</a></li>
     </ul>
 
     <h2>Список книг</h2>
     <ul>
-        <li><a href="{{ url_for('list_books') }}">Посмотреть список книг</a></li>
+        <li><a href="{{ url_for('lab2.list_books') }}">Посмотреть список книг</a></li>
     </ul>
 {% endblock %}
