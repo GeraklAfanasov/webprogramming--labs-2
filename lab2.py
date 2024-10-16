@@ -24,16 +24,16 @@ def add_flower():
         price = int(request.form['price'])
         flowers.append({"name": name, "price": price})
         return redirect(url_for('lab2.list_flowers'))
-    return render_template('add_flower.html')
+    return render_template('lab2/add_flower.html')
 
 @lab2.route('/lab2/flowers')
 def list_flowers():
-    return render_template('list_flowers.html', flowers=flowers)
+    return render_template('lab2/list_flowers.html', flowers=flowers)
 
 @lab2.route('/lab2/flowers/<int:flower_id>')
 def flower(flower_id):
     if 0 <= flower_id < len(flowers):
-        return render_template('flower.html', flower=flowers[flower_id], flowers=flowers)
+        return render_template('lab2/flower.html', flower=flowers[flower_id], flowers=flowers)
     return 'Нет такого цветка', 404
 
 @lab2.route('/lab2/clear_flowers')
@@ -61,12 +61,12 @@ def lab2_main():
         {'name': 'Апельсин', 'price': 120},
         {'name': 'Манго', 'price': 200}
     ]
-    return render_template('lab2.html', name=name, lab_num=lab_num, curs_num=curs_num, group=group, fruits=fruits)
+    return render_template('lab2/lab2.html', name=name, lab_num=lab_num, curs_num=curs_num, group=group, fruits=fruits)
 
 @lab2.route('/lab2/filter')
 def filter_example():
     phrase = "сколько нам открытий чудных готовит просвещенья дух"
-    return render_template('filter.html', phrase=phrase)
+    return render_template('lab2/filter.html', phrase=phrase)
 
 @lab2.route('/lab2/calc/')
 def calc_default():
@@ -83,7 +83,7 @@ def calc(a, b):
     prod_result = a * b
     div_result = a / b if b != 0 else 'Ошибка: деление на ноль'
     pow_result = a ** b
-    return render_template('calc.html', a=a, b=b, sum_result=sum_result, diff_result=diff_result, prod_result=prod_result, div_result=div_result, pow_result=pow_result)
+    return render_template('lab2/calc.html', a=a, b=b, sum_result=sum_result, diff_result=diff_result, prod_result=prod_result, div_result=div_result, pow_result=pow_result)
 
 @lab2.route('/lab2/books')
 def list_books():
@@ -99,7 +99,7 @@ def list_books():
     {"author": "Стивен Кинг", "title": "Оно", "genre": "Ужасы", "pages": 1138},
     {"author": "Агата Кристи", "title": "Убийство в Восточном экспрессе", "genre": "Детектив", "pages": 256}
     ]
-    return render_template('books.html', books=books)
+    return render_template('lab2/books.html', books=books)
 
 @lab2.route('/lab2/berries')
 def list_berries():
@@ -110,4 +110,4 @@ def list_berries():
     {"name": "Голубика", "description": "Богатая антиоксидантами ягода, используемая в салатах и десертах.", "image": "cranberry.jpg"},
     {"name": "Малина", "description": "Сладкая и кислая ягода, популярная в десертах и напитках.", "image": "raspberry.jpg"}
     ]
-    return render_template('berries.html', berries=berries)
+    return render_template('lab2/berries.html', berries=berries)
