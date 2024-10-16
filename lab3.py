@@ -44,3 +44,17 @@ def clear_cookies():
     response.delete_cookie('age')
     response.delete_cookie('name_color')
     return response
+
+@lab3.route('/lab3/form1', methods=['GET'])
+def form1():
+    user = request.args.get('user')
+    age = request.args.get('age')
+    sex = request.args.get('sex')
+
+    sex_ru = 'Не указан'
+    if sex == 'male':
+        sex_ru = 'Мужской'
+    elif sex == 'female':
+        sex_ru = 'Женский'
+
+    return render_template('lab3/form1.html', user=user, age=age, sex_ru=sex_ru)

@@ -1,4 +1,4 @@
-from flask import Blueprint, url_for, redirect, abort, make_response, render_template_string, request
+from flask import Blueprint, url_for, redirect, abort, make_response, render_template, request
 from werkzeug.exceptions import HTTPException
 
 lab1 = Blueprint('lab1', __name__)
@@ -29,103 +29,12 @@ def lab1_main():
         ('Ошибка 405', url_for('lab1.error_405')),
         ('Ошибка 500', url_for('lab1.error_500')),
     ]
-    table_rows = ''.join([f'<tr><td>{name}</td><td><a href="{url}" style="color: blue;">{url}</a></td></tr>' for name, url in routes])
-    
-    return f'''
-<!doctype html>
-<html>
-    <head>
-        <title>Лабораторная 1</title>
-        <link rel="stylesheet" type="text/css" href="{css_path}">
-        <style>
-            body {{
-                background-color: white;
-                color: black;
-                font-family: Arial, sans-serif;
-            }}
-            table {{
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-            }}
-            th, td {{
-                border: 1px solid black;
-                padding: 10px;
-                text-align: left;
-            }}
-            th {{
-                background-color: #000080;
-                color: white;
-            }}
-            tr:nth-child(even) {{
-                background-color: #f2f2f2;
-            }}
-            a {{
-                color: blue;
-                text-decoration: none;
-            }}
-            a:hover {{
-                text-decoration: underline;
-            }}
-            footer {{
-                margin-top: 50px;
-                text-align: center;
-                font-size: 12px;
-            }}
-        </style>
-    </head>
-    <body>
-        <header>
-            <h1>Лабораторная 1</h1>
-        </header>
-        <p>
-            Flask — фреймворк для создания веб-приложений на языке
-            программирования Python, использующий набор инструментов
-            Werkzeug, а также шаблонизатор Jinja2.
-        </p>
-        <a href="{root_url}" style="color: blue;">Вернуться на главную</a>
-        <h2>Список роутов</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Название маршрута</th>
-                    <th>Ссылка</th>
-                </tr>
-            </thead>
-            <tbody>
-                {table_rows}
-            </tbody>
-        </table>
-        <footer>
-            <p>ФИО: Афанасов Геракл Георгиевич</p>
-            <p>Группа: ФБИ-22</p>
-            <p>Курс: 2</p>
-            <p>Год: 2023</p>
-        </footer>
-    </body>
-</html>
-'''
+    return render_template('lab1/lab1.html', css_path=css_path, root_url=root_url, routes=routes)
 
 @lab1.route("/lab1/web")
 def start():
     css_path = url_for("static", filename="lab1.css")
-    return f'''<!doctype html> 
-    <html> 
-        <head>
-            <link rel="stylesheet" type="text/css" href="{css_path}">
-        </head>
-        <body>
-            <header>
-                <h1>web-сервер на flask</h1>
-            </header>
-            <footer>
-                <p>ФИО: Афанасов Геракл Георгиевич</p>
-                <p>Группа: ФБИ-22</p>
-                <p>Курс: 2</p>
-                <p>Год: 2023</p>
-            </footer>
-        </body> 
-    </html>''', 200, {
+    return render_template('lab1/start.html', css_path=css_path), 200, {
         'X-Server': 'sample',
         'Content-Type': 'text/plain; charset=utf-8'
     }
@@ -136,52 +45,13 @@ def author():
     group = "ФБИ-22"
     faculty = "ФБ"
     css_path = url_for("static", filename="lab1.css")
-    return f'''<!doctype html>
-        <html>
-            <head>
-                <link rel="stylesheet" type="text/css" href="{css_path}">
-            </head>
-            <body>
-                <header>
-                    <h1>Студент</h1>
-                </header>
-                <p>Студент: {name}</p>
-                <p>Группа: {group}</p>
-                <p>Факультет: {faculty}</p>
-                <a href="{url_for('lab1.start')}">web</a>
-                <footer>
-                    <p>ФИО: Афанасов Геракл Георгиевич</p>
-                    <p>Группа: ФБИ-22</p>
-                    <p>Курс: 2</p>
-                    <p>Год: 2023</p>
-                </footer>
-            </body>
-        </html>'''
+    return render_template('lab1/author.html', name=name, group=group, faculty=faculty, css_path=css_path)
 
 @lab1.route("/lab1/oak")
 def oak():
     path = url_for("static", filename="oak.jpg")
     css_path = url_for("static", filename="lab1.css")
-    return f'''
-<!doctype html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{css_path}">
-    </head>
-    <body>
-        <header>
-            <h1>Дуб</h1>
-        </header>
-        <img src="{path}" alt="Дуб">
-        <footer>
-            <p>ФИО: Афанасов Геракл Георгиевич</p>
-            <p>Группа: ФБИ-22</p>
-            <p>Курс: 2</p>
-            <p>Год: 2023</p>
-        </footer>
-    </body>
-</html>    
-'''
+    return render_template('lab1/oak.html', path=path, css_path=css_path)
 
 count = 0
 
@@ -191,27 +61,7 @@ def counter():
     count += 1
     reset_url = url_for("lab1.reset_counter")
     css_path = url_for("static", filename="lab1.css")
-    return f'''
-<!doctype html> 
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{css_path}">
-    </head>
-    <body>
-        <header>
-            <h1>Счетчик посещений</h1>
-        </header>
-        <p>Сколько раз вы сюда заходили: {count}</p>
-        <a href="{reset_url}">Очистить счетчик</a>
-        <footer>
-            <p>ФИО: Афанасов Геракл Георгиевич</p>
-            <p>Группа: ФБИ-22</p>
-            <p>Курс: 2</p>
-            <p>Год: 2023</p>
-        </footer>
-    </body>
-</html>
-'''
+    return render_template('lab1/counter.html', count=count, reset_url=reset_url, css_path=css_path)
 
 @lab1.route("/lab1/reset_counter")
 def reset_counter():
@@ -219,27 +69,7 @@ def reset_counter():
     count = 0 
     counter_url = url_for("lab1.counter")
     css_path = url_for("static", filename="lab1.css")
-    return f'''
-<!doctype html> 
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{css_path}">
-    </head>
-    <body>
-        <header>
-            <h1>Счетчик очищен</h1>
-        </header>
-        <p>Счетчик был сброшен.</p>
-        <a href="{counter_url}">Вернуться к счетчику</a>
-        <footer>
-            <p>ФИО: Афанасов Геракл Георгиевич</p>
-            <p>Группа: ФБИ-22</p>
-            <p>Курс: 2</p>
-            <p>Год: 2023</p>
-        </footer>
-    </body>
-</html>
-'''
+    return render_template('lab1/reset_counter.html', counter_url=counter_url, css_path=css_path)
 
 @lab1.route("/lab1/info")
 def info():
@@ -248,85 +78,14 @@ def info():
 @lab1.route("/created")
 def created():
     css_path = url_for("static", filename="lab1.css")
-    return f'''
-<!doctype html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{css_path}">
-    </head>
-    <body>
-        <header>
-            <h1>Создано успешно</h1>
-        </header>
-        <div><i>что-то созданно ...</i></div>
-        <footer>
-            <p>ФИО: Афанасов Геракл Георгиевич</p>
-            <p>Группа: ФБИ-22</p>
-            <p>Курс: 2</p>
-            <p>Год: 2023</p>
-        </footer>
-    </body>
-</html>
-''', 201
+    return render_template('lab1/created.html', css_path=css_path), 201
 
 @lab1.route('/custom-page')
 def custom_page():
     # Путь к картинке
     image_url = url_for('static', filename='Flask.png')
     # Текст для страницы
-    page_content = '''
-    <!doctype html>
-    <html>
-        <head>
-            <title>Кастомная страница</title>
-            <style>
-                body {{
-                    font-family: Arial, sans-serif;
-                    line-height: 1.6;
-                }}
-                img {{
-                    max-width: 100%;
-                    height: auto;
-                }}
-                .content {{
-                    margin: 20px;
-                }}
-            </style>
-        </head>
-        <body>
-            <header>
-                <h1>Добро пожаловать на кастомную страницу</h1>
-            </header>
-            <div class="content">
-                <p>
-                    Это пример страницы, которая демонстрирует работу с несколькими
-                    абзацами текста. Веб-разработка может быть увлекательной и интересной, особенно
-                    когда вы создаете что-то новое и функциональное.
-                </p>
-                <p>
-                    Flask является мощным и гибким микрофреймворком для создания веб-приложений
-                    на Python. Он предоставляет разработчикам возможность быстро и эффективно создавать
-                    веб-сервисы, не перегружая их сложными библиотеками.
-                </p>
-                <p>
-                    Помимо работы с текстом, веб-страницы часто содержат изображения, которые
-                    делают их более привлекательными для пользователей. В нашем случае это пример
-                    изображения ниже:
-                </p>
-                <img src="{image_url}" alt="Пример изображения">
-                <p>
-                    Этот текст демонстрирует работу с несколькими абзацами и изображениями,
-                    а также добавление кастомных заголовков в ответ сервера.
-                </p>
-            </div>
-            <footer>
-                <p>ФИО: Афанасов Геракл Георгиевич</p>
-                <p>Группа: ФБИ-22</p>
-                <p>Год: 2023</p>
-            </footer>
-        </body>
-    </html>
-    '''.format(image_url=image_url)
+    page_content = render_template('lab1/custom_page.html', image_url=image_url)
 
     # Создаем ответ и добавляем заголовки
     response = make_response(page_content)
