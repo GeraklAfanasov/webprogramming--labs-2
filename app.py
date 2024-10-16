@@ -2,16 +2,19 @@ from flask import Flask, url_for, redirect, abort, make_response, render_templat
 from werkzeug.exceptions import HTTPException
 from lab1 import lab1
 from lab2 import lab2
+from lab3 import lab3  
 
 app = Flask(__name__)
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
+app.register_blueprint(lab3)  
 
 @app.route("/")
 @app.route("/index")
 def index():
     lab1_url = url_for("lab1.lab1_main")
     lab2_url = url_for("lab2.lab2_main")
+    lab3_url = url_for("lab3.lab3_main")
     css_path = url_for("static", filename="lab1.css")
     return f'''
 <!doctype html>
@@ -27,6 +30,7 @@ def index():
         <ul>
             <li><a href="{lab1_url}">Первая лабораторная</a></li>
             <li><a href="{lab2_url}">Вторая лабораторная</a></li>
+            <li><a href="{lab3_url}">Третья лабораторная</a></li>
         </ul>
         <footer>
             <p>ФИО: Афанасов Геракл Георгиевич</p>
