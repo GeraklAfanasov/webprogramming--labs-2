@@ -4,7 +4,7 @@ from lab1 import lab1
 from lab2 import lab2
 from lab3 import lab3
 
-app = Flask(__name__)
+app = Flapp = Flask(__name__)
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
 app.register_blueprint(lab3)  
@@ -15,7 +15,7 @@ def index():
     lab1_url = url_for("lab1.lab1_main")
     lab2_url = url_for("lab2.lab2_main")
     lab3_url = url_for("lab3.lab3_main")
-    css_path = url_for("static", filename="lab1.css")
+    css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
 <!doctype html>
 <html>
@@ -44,7 +44,7 @@ def index():
 
 @app.errorhandler(400)
 def bad_request(err):
-    css_path = url_for("static", filename="lab1.css")
+    css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
 <!doctype html>
 <html>
@@ -66,7 +66,7 @@ def bad_request(err):
 
 @app.errorhandler(401)
 def unauthorized(err):
-    css_path = url_for("static", filename="lab1.css")
+    css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
 <!doctype html>
 <html>
@@ -88,7 +88,7 @@ def unauthorized(err):
 
 @app.errorhandler(403)
 def forbidden(err):
-    css_path = url_for("static", filename="lab1.css")
+    css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
 <!doctype html>
 <html>
@@ -110,8 +110,8 @@ def forbidden(err):
 
 @app.errorhandler(404)
 def not_found(err):
-    path = url_for("static", filename="404.jpg")
-    css_path = url_for("static", filename="lab1.css")
+    path = url_for("static", filename="lab1/404.jpg")
+    css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
 <!doctype html>
 <html>
@@ -136,7 +136,7 @@ def not_found(err):
 
 @app.errorhandler(405)
 def method_not_allowed(err):
-    css_path = url_for("static", filename="lab1.css")
+    css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
 <!doctype html>
 <html>
