@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 
 # Создание Blueprint
 lab4 = Blueprint('lab4', __name__)
@@ -85,6 +85,13 @@ def tree():
 
     return render_template('lab4/tree.html', tree_count=tree_count)
 
+users = [
+    {"username": "alex", "password": "123"},
+    {"username": "bob", "password": "456"},
+    {"username": "alice", "password": "789"},
+    {"username": "charlie", "password": "000"}
+]
+
 # Роут для страницы авторизации
 @lab4.route('/lab4/login', methods=['GET', 'POST'])
 def login():
@@ -96,9 +103,12 @@ def login():
         password = request.form.get('password')
         print(f"Login: {login}, Password: {password}")  # Отладочная печать
         
-        if login == 'alex' and password == '123':
-            session['authorized'] = True
-            authorized = True
+        for user in users:
+            if login == user['username'] and password == user['password']:
+                session['authorized'] = True
+                session['username'] = login
+                authorized = True   
+                break
         else:
             error = "Неверные логин или пароль."
     else:
@@ -106,3 +116,17 @@ def login():
         authorized = session.get('authorized', False)
     
     return render_template('lab4/login.html', error=error, authorized=authorized)
+
+@lab4.route('/lab4/logout')
+def logout():
+    session.pop('authorized', None)
+    session.pop('username', None)
+    flash('Вы успешно вышли из системы.', 'success')
+    return redirect(url_for('lab4.login'))
+
+@lab4.route('/lab4/clear_cookies')
+def clear_cookies():
+    response = redirect(url_for('lab4.login'))
+    response.delete_cookie('username')  # Удалите нужные cookies
+    response.delete_cookie('authorized')
+    return response

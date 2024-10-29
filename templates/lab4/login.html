@@ -6,6 +6,7 @@
 {% if authorized %}
     <h2>Добро пожаловать, {{ session['username'] or 'пользователь' }}!</h2>
     <p>Вы успешно авторизованы.</p>
+    <a href="{{ url_for('lab4.logout') }}">Выйти</a>
 {% else %}
     <form method="POST">
         <div>
