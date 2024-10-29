@@ -92,7 +92,6 @@ users = [
     {"username": "charlie", "password": "000"}
 ]
 
-# Роут для страницы авторизации
 @lab4.route('/lab4/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -111,13 +110,16 @@ def login():
                 break
         else:
             error = "Неверные логин или пароль."
+        
+        if authorized:
+            return redirect(url_for('lab4.login'))
     else:
         # Проверяем авторизован ли пользователь
         authorized = session.get('authorized', False)
     
     return render_template('lab4/login.html', error=error, authorized=authorized)
 
-@lab4.route('/lab4/logout')
+@lab4.route('/lab4/logout', methods=['POST'])
 def logout():
     session.pop('authorized', None)
     session.pop('username', None)
