@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница - Лабораторная №4</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lab1/lab1.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Главная страница лабораторной работы №4</h1>
+    </header>
+    
+    <main class="content">
+        <section class="menu">
+            <h2>Доступные задания</h2>
+            <ul>
+                <li><a href="{{ url_for('lab4.div_form') }}">Калькулятор деления чисел</a></li>
+                <!-- Добавьте другие ссылки на задания, если есть -->
+            </ul>
+            <div class="links">
+                <a href="{{ url_for('index') }}" class="back-link">Вернуться на главную</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>ФИО: Афанасов Геракл Георгиевич</p>
+        <p>Группа: ФБИ-22</p>
+        <p>Год: 2023</p>
+    </footer>
+</body>
+</html>

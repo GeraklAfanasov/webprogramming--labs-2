@@ -44,7 +44,8 @@ def index():
         </footer>
     </body>
 </html>
-'''
+'''.format(url_for("lab1.lab1_main"), url_for("lab2.lab2_main"), url_for("lab3.lab3_main"), url_for("lab4.lab4_main"))
+
 
 @app.errorhandler(400)
 def bad_request(err):
