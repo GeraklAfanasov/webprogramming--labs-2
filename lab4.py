@@ -1,7 +1,9 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 
 # Создание Blueprint
 lab4 = Blueprint('lab4', __name__)
+
+tree_count = 0
 
 @lab4.route('/lab4/')
 def lab4_main():
@@ -67,3 +69,17 @@ def div_page():
         else:
             result = float(num1) / float(num2)
     return render_template('lab4/div.html', error=error, result=result)
+
+@lab4.route('/lab4/tree', methods=['GET', 'POST'])
+def tree():
+    global tree_count
+
+    if request.method == 'POST':
+        operation = request.form.get('operation')
+        if operation == 'plant':
+            tree_count += 1
+        elif operation == 'cut':
+            tree_count -= 1
+        return redirect(url_for('lab4.tree'))
+
+    return render_template('lab4/tree.html', tree_count=tree_count)
