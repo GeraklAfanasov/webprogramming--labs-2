@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Авторизация</h1>
+
+{% if authorized %}
+    <h2>Добро пожаловать, {{ session['username'] or 'пользователь' }}!</h2>
+    <p>Вы успешно авторизованы.</p>
+{% else %}
+    <form method="POST">
+        <div>
+            <label for="login">Имя пользователя:</label>
+            <input type="text" name="login" required>
+        </div>
+        <div>
+            <label for="password">Пароль:</label>
+            <input type="password" name="password" required>
+        </div>
+        <button type="submit">Войти</button>
+        <button type="reset">Отмена</button>
+    </form>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

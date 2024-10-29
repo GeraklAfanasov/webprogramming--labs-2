@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 
 # Создание Blueprint
 lab4 = Blueprint('lab4', __name__)
@@ -84,3 +84,25 @@ def tree():
         return redirect(url_for('lab4.tree'))
 
     return render_template('lab4/tree.html', tree_count=tree_count)
+
+# Роут для страницы авторизации
+@lab4.route('/lab4/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    authorized = False
+    
+    if request.method == 'POST':
+        login = request.form.get('login')
+        password = request.form.get('password')
+        print(f"Login: {login}, Password: {password}")  # Отладочная печать
+        
+        if login == 'alex' and password == '123':
+            session['authorized'] = True
+            authorized = True
+        else:
+            error = "Неверные логин или пароль."
+    else:
+        # Проверяем авторизован ли пользователь
+        authorized = session.get('authorized', False)
+    
+    return render_template('lab4/login.html', error=error, authorized=authorized)
