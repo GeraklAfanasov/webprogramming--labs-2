@@ -9,21 +9,21 @@
     <form method="post" action="{{ url_for('lab3.ticket') }}">
         <div class="form-group">
             <label for="fio">ФИО пассажира:</label>
-            <input type="text" id="fio" name="fio" required>
+            <input type="text" id="fio" name="fio" required class="input-field">
             {% if errors.fio %}
                 <span class="error">{{ errors.fio }}</span>
             {% endif %}
         </div>
         <div class="form-group">
             <label for="age">Возраст:</label>
-            <input type="number" id="age" name="age" required>
+            <input type="number" id="age" name="age" required class="input-field">
             {% if errors.age %}
                 <span class="error">{{ errors.age }}</span>
             {% endif %}
         </div>
         <div class="form-group">
             <label for="bunk">Полка:</label>
-            <select id="bunk" name="bunk" required>
+            <select id="bunk" name="bunk" required class="input-field">
                 <option value="lower">Нижняя</option>
                 <option value="upper">Верхняя</option>
                 <option value="lower_side">Нижняя боковая</option>
@@ -42,21 +42,21 @@
         </div>
         <div class="form-group">
             <label for="departure">Пункт выезда:</label>
-            <input type="text" id="departure" name="departure" required>
+            <input type="text" id="departure" name="departure" required class="input-field">
             {% if errors.departure %}
                 <span class="error">{{ errors.departure }}</span>
             {% endif %}
         </div>
         <div class="form-group">
             <label for="destination">Пункт назначения:</label>
-            <input type="text" id="destination" name="destination" required>
+            <input type="text" id="destination" name="destination" required class="input-field">
             {% if errors.destination %}
                 <span class="error">{{ errors.destination }}</span>
             {% endif %}
         </div>
         <div class="form-group">
             <label for="date">Дата поездки:</label>
-            <input type="date" id="date" name="date" required>
+            <input type="date" id="date" name="date" required class="input-field">
             {% if errors.date %}
                 <span class="error">{{ errors.date }}</span>
             {% endif %}
@@ -78,8 +78,8 @@
             margin-bottom: 5px;
             font-weight: bold;
         }
-        .form-group input, .form-group select {
-            width: 100%;
+        .input-field {
+            width: 200px; /* Фиксированная ширина для всех полей ввода */
             padding: 8px;
             box-sizing: border-box;
         }

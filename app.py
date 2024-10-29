@@ -3,11 +3,13 @@ from werkzeug.exceptions import HTTPException
 from lab1 import lab1
 from lab2 import lab2
 from lab3 import lab3
+from lab4 import lab4
 
-app = Flapp = Flask(__name__)
+app = Flask(__name__)
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
-app.register_blueprint(lab3)  
+app.register_blueprint(lab3)
+app.register_blueprint(lab4)
 
 @app.route("/")
 @app.route("/index")
@@ -15,6 +17,7 @@ def index():
     lab1_url = url_for("lab1.lab1_main")
     lab2_url = url_for("lab2.lab2_main")
     lab3_url = url_for("lab3.lab3_main")
+    lab4_url = url_for("lab4.lab4_main")  # Убедитесь, что это имя маршрута существует
     css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
 <!doctype html>
@@ -31,6 +34,7 @@ def index():
             <li><a href="{lab1_url}">Первая лабораторная</a></li>
             <li><a href="{lab2_url}">Вторая лабораторная</a></li>
             <li><a href="{lab3_url}">Третья лабораторная</a></li>
+            <li><a href="{lab4_url}">Четвертая лабораторная</a></li>
         </ul>
         <footer>
             <p>ФИО: Афанасов Геракл Георгиевич</p>

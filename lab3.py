@@ -2,6 +2,30 @@ from flask import Blueprint, render_template, request, make_response, redirect, 
 
 lab3 = Blueprint('lab3', __name__)
 
+# Список товаров (смартфоны)
+products = [
+    {"name": "iPhone 13", "price": 999, "brand": "Apple", "memory": "128GB"},
+    {"name": "Samsung Galaxy S21", "price": 899, "brand": "Samsung", "memory": "128GB"},
+    {"name": "Google Pixel 6", "price": 699, "brand": "Google", "memory": "128GB"},
+    {"name": "OnePlus 9", "price": 799, "brand": "OnePlus", "memory": "128GB"},
+    {"name": "Xiaomi Mi 11", "price": 699, "brand": "Xiaomi", "memory": "128GB"},
+    {"name": "Sony Xperia 1 III", "price": 1199, "brand": "Sony", "memory": "256GB"},
+    {"name": "Huawei P40 Pro", "price": 899, "brand": "Huawei", "memory": "256GB"},
+    {"name": "LG Velvet", "price": 599, "brand": "LG", "memory": "128GB"},
+    {"name": "Motorola Edge", "price": 699, "brand": "Motorola", "memory": "256GB"},
+    {"name": "Nokia 8.3", "price": 499, "brand": "Nokia", "memory": "128GB"},
+    {"name": "Oppo Find X3 Pro", "price": 1099, "brand": "Oppo", "memory": "256GB"},
+    {"name": "Realme GT", "price": 599, "brand": "Realme", "memory": "128GB"},
+    {"name": "Vivo X60 Pro", "price": 799, "brand": "Vivo", "memory": "256GB"},
+    {"name": "ZTE Axon 30", "price": 499, "brand": "ZTE", "memory": "128GB"},
+    {"name": "Asus ROG Phone 5", "price": 999, "brand": "Asus", "memory": "256GB"},
+    {"name": "BlackBerry Key2", "price": 699, "brand": "BlackBerry", "memory": "128GB"},
+    {"name": "HTC U12+", "price": 599, "brand": "HTC", "memory": "128GB"},
+    {"name": "Lenovo Legion Phone Duel", "price": 899, "brand": "Lenovo", "memory": "256GB"},
+    {"name": "Meizu 18", "price": 699, "brand": "Meizu", "memory": "128GB"},
+    {"name": "TCL 20 Pro 5G", "price": 499, "brand": "TCL", "memory": "256GB"}
+]
+
 @lab3.route('/lab3/')
 def lab3_main():
     name = request.cookies.get('name') or 'аноним'
@@ -175,5 +199,15 @@ def ticket():
 
         return render_template('lab3/ticket.html', fio=fio, age=age, bunk=bunk, bedding=bedding, baggage=baggage, departure=departure, destination=destination, date=date, insurance=insurance, price=base_price)
 
-    # При GET-запросе передаем пустой словарь errors
     return render_template('lab3/ticket_form.html', errors={})
+
+@lab3.route('/lab3/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        min_price = float(request.form.get('min_price', 0))
+        max_price = float(request.form.get('max_price', float('inf')))
+
+        filtered_products = [product for product in products if min_price <= product['price'] <= max_price]
+        return render_template('lab3/search_results.html', products=filtered_products)
+
+    return render_template('lab3/search_form.html')
