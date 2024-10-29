@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
 app.register_blueprint(lab3)
-app.register_blueprint(lab4)
+app.register_blueprint(lab4, url_prefix='/lab4')
 
 @app.route("/")
 @app.route("/index")
@@ -17,7 +17,7 @@ def index():
     lab1_url = url_for("lab1.lab1_main")
     lab2_url = url_for("lab2.lab2_main")
     lab3_url = url_for("lab3.lab3_main")
-    lab4_url = url_for("lab4.lab4_main")  # Убедитесь, что это имя маршрута существует
+    lab4_url = url_for("lab4.lab4_main")  
     css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
 <!doctype html>
