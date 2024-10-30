@@ -20,6 +20,7 @@
             <li><a href="{{ url_for('lab4.div_page') }}">Калькулятор деления</a></li>
             <li><a href="{{ url_for('lab4.tree') }}">Счётчик деревьев</a></li>
             <li><a href="{{ url_for('lab4.login') }}">Авторизация</a></li>
+            <li><a href="{{ url_for('lab4.fridge') }}">Холодильник</a></li>
             {% if session.get('authorized') %}
                 <li><a href="{{ url_for('lab4.logout') }}">Выйти</a></li>
             {% endif %}
