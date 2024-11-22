@@ -12,7 +12,7 @@ app.secret_key = 'G2202gA20a05'
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
 app.register_blueprint(lab3)
-app.register_blueprint(lab4, url_prefix='/lab4')
+app.register_blueprint(lab4)
 
 @app.route("/")
 @app.route("/index")

@@ -10,7 +10,7 @@ tree_count = 0
 # Массив для хранения пользователей
 users = []
 
-@lab4.route('/lab4/')
+@lab4.route('/')
 def lab4_main():
     return render_template('lab4/lab4_main.html')
 
