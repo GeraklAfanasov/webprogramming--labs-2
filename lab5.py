@@ -105,7 +105,7 @@ def create_article():
         
         return redirect(url_for('lab5.list_articles'))
     
-    return render_template('lab5/create.html')
+    return render_template('lab5/create_article.html')
 
 @lab5.route('/lab5/edit_article/<int:article_id>', methods=['GET', 'POST'])
 def edit_article(article_id):
