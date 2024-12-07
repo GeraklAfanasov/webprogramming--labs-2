@@ -16,6 +16,7 @@ app.register_blueprint(lab3)
 app.register_blueprint(lab4)
 app.register_blueprint(lab5)  
 
+
 @app.route("/")
 @app.route("/index")
 def index():
