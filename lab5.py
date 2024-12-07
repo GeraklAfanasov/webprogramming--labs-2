@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, render_template, request, session, redirect, url_for, flash
 import psycopg2
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = 'Gerakl'  # Необходимо для работы сессий
@@ -14,6 +14,12 @@ def get_db_connection():
         host='localhost'
     )
     return conn
+
+# Закрытие подключения к базе данных и выполнение commit
+def close_db_connection(conn, cur):
+    cur.close()
+    conn.commit()
+    conn.close()
 
 # Создание Blueprint
 lab5 = Blueprint('lab5', __name__)
@@ -34,13 +40,13 @@ def login():
         cur = conn.cursor()
         cur.execute("SELECT * FROM users WHERE login = %s", (username,))
         user = cur.fetchone()
-        cur.close()
-        conn.close()
         
         if user and check_password_hash(user[2], password):
             session['username'] = username
+            close_db_connection(conn, cur)
             return redirect(url_for('lab5.create_article'))
 
+        close_db_connection(conn, cur)
         flash('Неправильный логин или пароль')
     
     return render_template('lab5/login.html')
@@ -57,9 +63,7 @@ def register():
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute("INSERT INTO users (login, password) VALUES (%s, %s)", (username, hashed_password))
-        conn.commit()
-        cur.close()
-        conn.close()
+        close_db_connection(conn, cur)
         
         flash('Пользователь успешно зарегистрирован!')
         return redirect(url_for('lab5.login'))
@@ -77,8 +81,7 @@ def list_articles():
     cur = conn.cursor()
     cur.execute("SELECT * FROM articles")
     articles = cur.fetchall()
-    cur.close()
-    conn.close()
+    close_db_connection(conn, cur)
     
     return render_template('lab5/list.html', articles=articles)
 
@@ -98,9 +101,7 @@ def create_article():
         cur.execute("SELECT id FROM users WHERE login = %s", (session['username'],))
         user_id = cur.fetchone()[0]
         cur.execute("INSERT INTO articles (user_id, title, article_text) VALUES (%s, %s, %s)", (user_id, title, article_text))
-        conn.commit()
-        cur.close()
-        conn.close()
+        close_db_connection(conn, cur)
         
         return redirect(url_for('lab5.list_articles'))
     
@@ -119,8 +120,7 @@ def edit_article(article_id):
     article = cur.fetchone()
     
     if not article:
-        cur.close()
-        conn.close()
+        close_db_connection(conn, cur)
         return "Статья не найдена", 404
 
     if request.method == 'POST':
@@ -128,14 +128,11 @@ def edit_article(article_id):
         article_text = request.form['article_text']
         
         cur.execute("UPDATE articles SET title = %s, article_text = %s WHERE id = %s", (title, article_text, article_id))
-        conn.commit()
-        cur.close()
-        conn.close()
+        close_db_connection(conn, cur)
         
         return redirect(url_for('lab5.list_articles'))
 
-    cur.close()
-    conn.close()
+    close_db_connection(conn, cur)
     return render_template('lab5/edit_article.html', article=article)
 
 @lab5.route('/lab5/delete_article/<int:article_id>', methods=['POST'])
@@ -148,9 +145,7 @@ def delete_article(article_id):
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute("DELETE FROM articles WHERE id = %s", (article_id,))
-    conn.commit()
-    cur.close()
-    conn.close()
+    close_db_connection(conn, cur)
     
     return redirect(url_for('lab5.list_articles'))
 
