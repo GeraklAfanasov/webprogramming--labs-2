@@ -7,7 +7,10 @@
     <title>Регистрация</title>
 </head>
 <body>
-    <h2>Регистрация</h2>
+    <header>
+        <h1>Регистрация</h1>
+        <a href="{{ url_for('lab5.lab') }}">Вернуться в меню</a>
+    </header>
     <form method="POST">
         <label for="name">Имя:</label>
         <input type="text" id="name" name="name" required>
@@ -26,3 +29,32 @@
     {% endif %}
 </body>
 </html>
+
+<!-- <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <title>Регистрация</title>
+</head>
+<body>
+    <h2>Регистрация</h2>
+    <form method="POST">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="username">Логин:</label>
+        <input type="text" id="username" name="username" required>
+        
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required>
+        
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <p><a href="{{ url_for('lab5.login') }}">Уже зарегистрированы? Войти</a></p>
+    {% if error %}
+        <div style="color: red;">{{ error }}</div>
+    {% endif %}
+</body>
+</html> -->
