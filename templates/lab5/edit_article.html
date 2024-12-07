@@ -14,11 +14,11 @@
         <form method="post">
             <div>
                 <label>Название статьи:
-                    <input type="text" name="title" value="{{ article.title }}" maxlength="50">
+                    <input type="text" name="title" value="{{ article[2] }}" maxlength="50">
                 </label>
             </div>
             <div>
-                <textarea name="article_text">{{ article.article_text }}</textarea>
+                <textarea name="article_text">{{ article[3] }}</textarea>
             </div>
             <div>
                 <button type="submit">Сохранить</button>

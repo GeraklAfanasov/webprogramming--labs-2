@@ -23,7 +23,7 @@ def index():
     lab2_url = url_for("lab2.lab2_main")
     lab3_url = url_for("lab3.lab3_main")
     lab4_url = url_for("lab4.lab4_main")
-    lab5_url = url_for("lab5.lab5_main")  
+    lab5_url = url_for("lab5.lab")  
     css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
 <!doctype html>
@@ -51,9 +51,7 @@ def index():
         </footer>
     </body>
 </html>
-'''.format(url_for("lab1.lab1_main"), url_for("lab2.lab2_main"), url_for("lab3.lab3_main"), url_for("lab4.lab4_main"), url_for("lab5.lab5_main"))
-
-
+'''.format(url_for("lab1.lab1_main"), url_for("lab2.lab2_main"), url_for("lab3.lab3_main"), url_for("lab4.lab4_main"), url_for("lab5.lab"))
 
 @app.errorhandler(400)
 def bad_request(err):
