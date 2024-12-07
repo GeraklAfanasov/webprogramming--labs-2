@@ -36,6 +36,10 @@ def login():
         username = request.form['username']
         password = request.form['password']
         
+        if not username or not password:
+            flash('Логин и пароль не могут быть пустыми')
+            return render_template('lab5/login.html')
+        
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute("SELECT * FROM users WHERE login = %s", (username,))
@@ -58,10 +62,21 @@ def register():
         username = request.form['username']
         password = request.form['password']
         
-        hashed_password = generate_password_hash(password)
+        if not username or not password:
+            flash('Логин и пароль не могут быть пустыми')
+            return render_template('lab5/register.html')
         
         conn = get_db_connection()
         cur = conn.cursor()
+        cur.execute("SELECT * FROM users WHERE login = %s", (username,))
+        existing_user = cur.fetchone()
+        
+        if existing_user:
+            close_db_connection(conn, cur)
+            flash('Логин уже занят')
+            return render_template('lab5/register.html')
+        
+        hashed_password = generate_password_hash(password)
         cur.execute("INSERT INTO users (login, password) VALUES (%s, %s)", (username, hashed_password))
         close_db_connection(conn, cur)
         

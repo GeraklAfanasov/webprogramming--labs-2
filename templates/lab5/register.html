@@ -24,8 +24,14 @@
         <button type="submit">Зарегистрироваться</button>
     </form>
     <p><a href="{{ url_for('lab5.login') }}">Уже зарегистрированы? Войти</a></p>
-    {% if error %}
-        <div style="color: red;">{{ error }}</div>
-    {% endif %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 </body>
 </html>
