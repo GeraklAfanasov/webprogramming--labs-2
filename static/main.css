@@ -50,10 +50,15 @@ li {
 }
 
 a {
-    color: #4a90e2;
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #4a90e2;
+    color: white;
     text-decoration: none;
+    border-radius: 5px;
 }
 
 a:hover {
-    text-decoration: underline;
+    background-color: #357abd;
 }
