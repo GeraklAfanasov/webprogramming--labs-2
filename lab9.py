@@ -69,6 +69,11 @@ def final():
         img = 'pizza.jpg'
     else:
         gift = 'книга'
-        img = 'book.jpg'
+        img = 'book.png'
 
     return render_template('lab9/final.html', name=name, grown=grown, gift=gift, img=img)
+
+@lab9.route('/lab9/restart')
+def restart():
+    session.clear()
+    return redirect(url_for('lab9.step1_name'))
