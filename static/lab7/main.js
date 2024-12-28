@@ -117,6 +117,8 @@ function deleteFilm(id) {
     }
 }
 
+
+
 function cancel() {
     document.querySelector('.modal').style.display = 'none';
 }
