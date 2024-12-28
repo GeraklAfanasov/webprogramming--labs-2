@@ -107,6 +107,7 @@ function editFilm(id) {
         });
 }
 
+
 function deleteFilm(id) {
     if (confirm('Вы уверены, что хотите удалить этот фильм?')) {
         fetch(`/lab7/rest-api/films/${id}`, {
