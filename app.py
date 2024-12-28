@@ -61,6 +61,7 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+
 # Главная страница
 @app.route("/")
 @app.route("/index")
