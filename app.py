@@ -1,27 +1,51 @@
+import os
 from flask import Flask, url_for, redirect, abort, make_response, render_template_string, render_template, request
 from werkzeug.exceptions import HTTPException
+from flask_login import LoginManager
+from db import db
+from db.models import users
+
+# Импорт Blueprint для лабораторных работ
 from lab1 import lab1
 from lab2 import lab2
 from lab3 import lab3
 from lab4 import lab4
-from lab5 import lab5  # Подключаем код 5-ой лабораторной
-from lab6 import lab6  # Подключаем код 6-ой лабораторной
+from lab5 import lab5
+from lab6 import lab6
 from lab7 import lab7
 from lab8 import lab8
 
 app = Flask(__name__)
 
-app.secret_key = 'G2202gA20a05'
+# Настройки приложения
+app.secret_key = os.getenv('SECRET_KEY', 'G2202gA20a05')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ivan_ivanov_orm.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Инициализация SQLAlchemy
+db.init_app(app)
+
+# Инициализация Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'lab8.login'  # Указываем страницу для входа
+
+# Функция для загрузки пользователя
+@login_manager.user_loader
+def load_user(user_id):
+    return users.query.get(int(user_id))
+
+# Регистрация Blueprint для лабораторных работ
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
 app.register_blueprint(lab3)
 app.register_blueprint(lab4)
-app.register_blueprint(lab5)  
-app.register_blueprint(lab6)  # Регистрируем Blueprint lab6
+app.register_blueprint(lab5)
+app.register_blueprint(lab6)
 app.register_blueprint(lab7)
 app.register_blueprint(lab8)
 
+# Главная страница
 @app.route("/")
 @app.route("/index")
 def index():
@@ -29,10 +53,10 @@ def index():
     lab2_url = url_for("lab2.lab2_main")
     lab3_url = url_for("lab3.lab3_main")
     lab4_url = url_for("lab4.lab4_main")
-    lab5_url = url_for("lab5.lab")  # Ссылка на 5-ю лабораторную
-    lab6_url = url_for("lab6.lab")  # Ссылка на 6-ю лабораторную
+    lab5_url = url_for("lab5.lab")
+    lab6_url = url_for("lab6.lab")
     lab7_url = url_for("lab7.lab")
-    lab8_url = url_for("lab8.lab") 
+    lab8_url = url_for("lab8.lab")
     css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
 <!doctype html>
@@ -63,164 +87,38 @@ def index():
         </footer>
     </body>
 </html>
-'''.format(url_for("lab1.lab1_main"), url_for("lab2.lab2_main"), url_for("lab3.lab3_main"), url_for("lab4.lab4_main"), url_for("lab5.lab"))
+'''
 
-# @app.route("/")
-# @app.route("/index")
-# def index():
-#     lab1_url = url_for("lab1.lab1_main")
-#     lab2_url = url_for("lab2.lab2_main")
-#     lab3_url = url_for("lab3.lab3_main")
-#     lab4_url = url_for("lab4.lab4_main")
-#     lab5_url = url_for("lab5.lab")  
-#     lab6_url = url_for("lab6.lab")  # Используем lab6.lab
-#     css_path = url_for("static", filename="lab1/lab1.css")
-#     return f'''
-# <!doctype html>
-# <html>
-#     <head>
-#         <title>НГТУ, ФБ, Лабораторные работы</title>
-#         <link rel="stylesheet" type="text/css" href="{css_path}">
-#     </head>
-#     <body>
-#         <header>
-#             <h1>НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных</h1>
-#         </header>
-#         <ul>
-#             <li><a href="{lab1_url}">Первая лабораторная</a></li>
-#             <li><a href="{lab2_url}">Вторая лабораторная</a></li>
-#             <li><a href="{lab3_url}">Третья лабораторная</a></li>
-#             <li><a href="{lab4_url}">Четвертая лабораторная</a></li>
-#             <li><a href="{lab5_url}">Пятая лабораторная</a></li>
-#             <li><a href="{lab6_url}">Шестая лабораторная</a></li>
-#         </ul>
-#         <footer>
-#             <p>ФИО: Афанасов Геракл Георгиевич</p>
-#             <p>Группа: ФБИ-24</p>
-#             <p>Курс: 3</p>
-#             <p>Год: 2023</p>
-#         </footer>
-#     </body>
-# </html>
-# '''.format(url_for("lab1.lab1_main"), url_for("lab2.lab2_main"), url_for("lab3.lab3_main"), url_for("lab4.lab4_main"), url_for("lab5.lab"))
-
+# Обработчики ошибок
 @app.errorhandler(400)
 def bad_request(err):
     css_path = url_for("static", filename="lab1/lab1.css")
-    return f'''
-<!doctype html>
-<html>
-    <head>
-        <title>Ошибка 400 - Неверный запрос</title>
-        <link rel="stylesheet" type="text/css" href="{css_path}">
-    </head>
-    <body>
-        <header>
-            <h1>Ошибка 400</h1>
-        </header>
-        <p>Неверный запрос (Bad Request)</p>
-        <footer>
-            <p>ФИО: Афанасов Геракл Георгиевич</p>
-        </footer>
-    </body>
-</html>
-''', 400
+    return render_template('error.html', error_code=400, error_message="Неверный запрос (Bad Request)", css_path=css_path), 400
 
 @app.errorhandler(401)
 def unauthorized(err):
     css_path = url_for("static", filename="lab1/lab1.css")
-    return f'''
-<!doctype html>
-<html>
-    <head>
-        <title>Ошибка 401 - Неавторизован</title>
-        <link rel="stylesheet" type="text/css" href="{css_path}">
-    </head>
-    <body>
-        <header>
-            <h1>Ошибка 401</h1>
-        </header>
-        <p>Неавторизованный доступ (Unauthorized)</p>
-        <footer>
-            <p>ФИО: Афанасов Геракл Георгиевич</p>
-        </footer>
-    </body>
-</html>
-''', 401
+    return render_template('error.html', error_code=401, error_message="Неавторизованный доступ (Unauthorized)", css_path=css_path), 401
 
 @app.errorhandler(403)
 def forbidden(err):
     css_path = url_for("static", filename="lab1/lab1.css")
-    return f'''
-<!doctype html>
-<html>
-    <head>
-        <title>Ошибка 403 - Доступ запрещен</title>
-        <link rel="stylesheet" type="text/css" href="{css_path}">
-    </head>
-    <body>
-        <header>
-            <h1>Ошибка 403</h1>
-        </header>
-        <p>Доступ запрещен (Forbidden)</p>
-        <footer>
-            <p>ФИО: Афанасов Геракл Георгиевич</p>
-        </footer>
-    </body>
-</html>
-''', 403
+    return render_template('error.html', error_code=403, error_message="Доступ запрещен (Forbidden)", css_path=css_path), 403
 
 @app.errorhandler(404)
 def not_found(err):
-    path = url_for("static", filename="lab1/404.jpg")
     css_path = url_for("static", filename="lab1/lab1.css")
-    return f'''
-<!doctype html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{css_path}">
-    </head>
-    <body>
-        <header>
-            <h1>Ошибка 404</h1>
-        </header>
-        <p>нет такой страницы, больше сюда не заходи</p>
-        <img src="{path}" alt="нет такой страницы">
-        <footer>
-            <p>ФИО: Афанасов Геракл Георгиевич</p>
-            <p>Группа: ФБИ-22</p>
-            <p>Курс: 2</p>
-            <p>Год: 2023</p>
-        </footer>
-    </body>
-</html>
-''', 404
+    return render_template('error.html', error_code=404, error_message="Страница не найдена (Not Found)", css_path=css_path), 404
 
 @app.errorhandler(405)
 def method_not_allowed(err):
     css_path = url_for("static", filename="lab1/lab1.css")
-    return f'''
-<!doctype html>
-<html>
-    <head>
-        <title>Ошибка 405 - Метод не разрешен</title>
-        <link rel="stylesheet" type="text/css" href="{css_path}">
-    </head>
-    <body>
-        <header>
-            <h1>Ошибка 405</h1>
-        </header>
-        <p>Метод не разрешен (Method Not Allowed)</p>
-        <footer>
-            <p>ФИО: Афанасов Геракл Георгиевич</p>
-        </footer>
-    </body>
-</html>
-''', 405
+    return render_template('error.html', error_code=405, error_message="Метод не разрешен (Method Not Allowed)", css_path=css_path), 405
 
 @app.errorhandler(500)
 def internal_server_error(err):
-    return "Ошибка 500: Внутренняя ошибка сервера. Пожалуйста, попробуйте позже.", 500
+    css_path = url_for("static", filename="lab1/lab1.css")
+    return render_template('error.html', error_code=500, error_message="Внутренняя ошибка сервера (Internal Server Error)", css_path=css_path), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
