@@ -20,51 +20,6 @@ function fillFilmList() {
         });
 }
 
-
-// function fillFilmList() {
-//     fetch('/lab7/rest-api/films/')
-//         .then(response => response.json())
-//         .then(data => {
-//             const filmList = document.getElementById('film-list');
-//             filmList.innerHTML = '';
-//             data.forEach(film => {
-//                 const row = document.createElement('tr');
-//                 row.innerHTML = `
-//                     <td>${film.title_ru}</td>
-//                     <td>${film.title}</td>
-//                     <td>${film.film_year}</td>
-//                     <td>
-//                         <button class="edit" onclick="editFilm(${film.id})">Редактировать</button>
-//                         <button class="delete" onclick="deleteFilm(${film.id})">Удалить</button>
-//                     </td>
-//                 `;
-//                 filmList.appendChild(row);
-//             });
-//         });
-// }
-
-// function fillFilmList() {
-//     fetch('/lab7/rest-api/films/')
-//         .then(response => response.json())
-//         .then(data => {
-//             const filmList = document.getElementById('film-list');
-//             filmList.innerHTML = '';
-//             data.forEach(film => {
-//                 const row = document.createElement('tr');
-//                 row.innerHTML = `
-//                     <td>${film.title_ru}</td>
-//                     <td>${film.title}</td>
-//                     <td>${film.film_year}</td>
-//                     <td>
-//                         <button onclick="editFilm(${film.id})">Редактировать</button>
-//                         <button onclick="deleteFilm(${film.id})">Удалить</button>
-//                     </td>
-//                 `;
-//                 filmList.appendChild(row);
-//             });
-//         });
-// }
-
 function addFilm() {
     document.getElementById('id').value = '';
     document.getElementById('title-ru').value = '';
