@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block lab %}Лабораторная работа 9{% endblock %}
+{% block main %}
+    <h1>Введите ваше имя</h1>
+    <form method="post">
+        <label>Ваше имя: <input type="text" name="name" required></label>
+        <button type="submit">Далее</button>
+    </form>
+{% endblock %}
