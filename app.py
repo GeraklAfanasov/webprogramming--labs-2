@@ -1,11 +1,28 @@
-import os
-from flask import Flask, url_for, redirect, abort, make_response, render_template_string, render_template, request
-from werkzeug.exceptions import HTTPException
+from flask import Flask, url_for, redirect, render_template, abort, request ,redirect
+from flask_sqlalchemy import SQLAlchemy
+from db.models import users
 from flask_login import LoginManager
 from db import db
-from db.models import users
+import os
+from os import path
+from db.models import users, articles
 
-# Импорт Blueprint для лабораторных работ
+
+
+app = Flask(__name__)
+
+login_manager = LoginManager()
+login_manager.login_view = 'lab8.login'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_users(login_id):
+    return users.query.get(int(login_id))
+
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'Gerakl')
+app.config['DB_TYPE'] = os.getenv('DB_TYPE', 'postgres')
+
+# Регистрация Blueprint для лабораторных работ
 from lab1 import lab1
 from lab2 import lab2
 from lab3 import lab3
@@ -15,27 +32,6 @@ from lab6 import lab6
 from lab7 import lab7
 from lab8 import lab8
 
-app = Flask(__name__)
-
-# Настройки приложения
-app.secret_key = os.getenv('SECRET_KEY', 'G2202gA20a05')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ivan_ivanov_orm.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Инициализация SQLAlchemy
-db.init_app(app)
-
-# Инициализация Flask-Login
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'lab8.login'  # Указываем страницу для входа
-
-# Функция для загрузки пользователя
-@login_manager.user_loader
-def load_user(user_id):
-    return users.query.get(int(user_id))
-
-# Регистрация Blueprint для лабораторных работ
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
 app.register_blueprint(lab3)
@@ -44,6 +40,26 @@ app.register_blueprint(lab5)
 app.register_blueprint(lab6)
 app.register_blueprint(lab7)
 app.register_blueprint(lab8)
+
+
+
+if app.config['DB_TYPE'] == 'postgres':
+    db_name = 'gerakl_afanasov_orm'
+    db_user = 'gerakl_afanasov_orm'
+    db_password = 'Gerakl2288'
+    host_ip = '127.0.0.1'
+    host_port = '5432'
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_password}@{host_ip}:{host_port}/{db_name}'
+else:
+    dir_path = path.dirname(path.realpath(__file__))
+    db_path = path.join(dir_path, 'gerakl_afanasov_orm.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 # Главная страница
 @app.route("/")
