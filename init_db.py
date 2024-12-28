@@ -13,6 +13,7 @@ cur.execute('''
     )
 ''')
 
+
 # Создание таблицы articles
 cur.execute('''
     CREATE TABLE IF NOT EXISTS articles (
