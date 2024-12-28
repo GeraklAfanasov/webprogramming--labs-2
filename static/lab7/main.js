@@ -120,4 +120,5 @@ function cancel() {
     document.querySelector('.modal').style.display = 'none';
 }
 
+
 document.addEventListener('DOMContentLoaded', fillFilmList);
