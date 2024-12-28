@@ -1,14 +1,10 @@
-git {% extends "base.html" %}
-
+{% extends "base.html" %}
 
 {% block lab %}Лабораторная работа 7{% endblock %}
 
 {% block script %}
 <script src="{{ url_for('static', filename='lab7/main.js') }}"></script>
 {% endblock %}
-
-
-
 
 {% block main %}
     <h1>Список фильмов</h1>
@@ -25,8 +21,6 @@ git {% extends "base.html" %}
         <tbody id="film-list"></tbody>
     </table>
 
-
-
     <button class="add-film" onclick="addFilm()">Добавить фильм</button>
 
     <div class="modal">
@@ -39,4 +33,3 @@ git {% extends "base.html" %}
         <button onclick="cancel()">Отмена</button>
     </div>
 {% endblock %}
-
