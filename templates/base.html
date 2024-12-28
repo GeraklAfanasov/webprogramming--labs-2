@@ -1,54 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        {% if name %}
-            {{ name }}.
-        {% else %}
-            Анонимус.
-        {% endif %}
-        {% block lab %}{% endblock %}
-    </title>
+    <title>Афанасов Геракл. {% block lab %}{% endblock %}</title>
+    
+    <!-- Подключение CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    
+    <!-- Иконки -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    
+    <!-- Динамические стили на основе cookies -->
     <style>
         body {
-            color: {{ request.cookies.get('color') or 'black' }};
-            background-color: {{ request.cookies.get('background_color') or 'white' }};
+            color: {{ request.cookies.get('color') or '#333' }};
+            background-color: {{ request.cookies.get('background_color') or '#f0f0f0' }};
             font-size: {{ request.cookies.get('font_size') or '16px' }};
         }
     </style>
+    
+    <!-- Блок для дополнительных скриптов -->
+    {% block script %}{% endblock %}
 </head>
 <body>
     <header>
-        <a href="/" style="color: #4a90e2; text-decoration: none;">Главное меню</a>
-        <h1>WEB-программирование, часть 2. 
-        {% block lab_header %}{% endblock %}</h1>
+        <!-- Заголовок страницы -->
+        WEB-программирование. Часть 2. {{ self.lab() }}
+        
+        <!-- Ссылка на главную страницу -->
+        <a href="/">Все лабораторные работы</a>
     </header>
-    
+
     <main>
-        {% block content %}{% endblock %}
+        <!-- Основное содержимое страницы -->
+        {% block main %}{% endblock %}
     </main>
-    
+
     <footer>
-        &copy; 
-        {% if name %}
-            {{ name }}
-        {% else %}
-            Анонимус
-        {% endif %}, 
-        {% if group %}
-            {{ group }}
-        {% else %}
-            неизвестная группа
-        {% endif %}, 
-        {% if curs_num %}
-            {{ curs_num }} курс
-        {% else %}
-            неизвестный курс
-        {% endif %}, 2024
+        <!-- Подвал страницы -->
+        &copy; Афанасов Геракл, ФБИ-24, 3 курс, 2024
     </footer>
 </body>
 </html>

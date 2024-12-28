@@ -5,6 +5,7 @@ from lab2 import lab2
 from lab3 import lab3
 from lab4 import lab4
 from lab5 import lab5  # Подключаем код 5-ой лабораторной
+from lab6 import lab6  # Подключаем код 6-ой лабораторной
 
 app = Flask(__name__)
 
@@ -15,7 +16,7 @@ app.register_blueprint(lab2)
 app.register_blueprint(lab3)
 app.register_blueprint(lab4)
 app.register_blueprint(lab5)  
-
+app.register_blueprint(lab6)  # Регистрируем Blueprint lab6
 
 @app.route("/")
 @app.route("/index")
@@ -24,7 +25,8 @@ def index():
     lab2_url = url_for("lab2.lab2_main")
     lab3_url = url_for("lab3.lab3_main")
     lab4_url = url_for("lab4.lab4_main")
-    lab5_url = url_for("lab5.lab")  
+    lab5_url = url_for("lab5.lab")  # Ссылка на 5-ю лабораторную
+    lab6_url = url_for("lab6.lab")  # Ссылка на 6-ю лабораторную
     css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
 <!doctype html>
@@ -43,6 +45,7 @@ def index():
             <li><a href="{lab3_url}">Третья лабораторная</a></li>
             <li><a href="{lab4_url}">Четвертая лабораторная</a></li>
             <li><a href="{lab5_url}">Пятая лабораторная</a></li>
+            <li><a href="{lab6_url}">Шестая лабораторная</a></li>
         </ul>
         <footer>
             <p>ФИО: Афанасов Геракл Георгиевич</p>
@@ -53,6 +56,45 @@ def index():
     </body>
 </html>
 '''.format(url_for("lab1.lab1_main"), url_for("lab2.lab2_main"), url_for("lab3.lab3_main"), url_for("lab4.lab4_main"), url_for("lab5.lab"))
+
+# @app.route("/")
+# @app.route("/index")
+# def index():
+#     lab1_url = url_for("lab1.lab1_main")
+#     lab2_url = url_for("lab2.lab2_main")
+#     lab3_url = url_for("lab3.lab3_main")
+#     lab4_url = url_for("lab4.lab4_main")
+#     lab5_url = url_for("lab5.lab")  
+#     lab6_url = url_for("lab6.lab")  # Используем lab6.lab
+#     css_path = url_for("static", filename="lab1/lab1.css")
+#     return f'''
+# <!doctype html>
+# <html>
+#     <head>
+#         <title>НГТУ, ФБ, Лабораторные работы</title>
+#         <link rel="stylesheet" type="text/css" href="{css_path}">
+#     </head>
+#     <body>
+#         <header>
+#             <h1>НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных</h1>
+#         </header>
+#         <ul>
+#             <li><a href="{lab1_url}">Первая лабораторная</a></li>
+#             <li><a href="{lab2_url}">Вторая лабораторная</a></li>
+#             <li><a href="{lab3_url}">Третья лабораторная</a></li>
+#             <li><a href="{lab4_url}">Четвертая лабораторная</a></li>
+#             <li><a href="{lab5_url}">Пятая лабораторная</a></li>
+#             <li><a href="{lab6_url}">Шестая лабораторная</a></li>
+#         </ul>
+#         <footer>
+#             <p>ФИО: Афанасов Геракл Георгиевич</p>
+#             <p>Группа: ФБИ-24</p>
+#             <p>Курс: 3</p>
+#             <p>Год: 2023</p>
+#         </footer>
+#     </body>
+# </html>
+# '''.format(url_for("lab1.lab1_main"), url_for("lab2.lab2_main"), url_for("lab3.lab3_main"), url_for("lab4.lab4_main"), url_for("lab5.lab"))
 
 @app.errorhandler(400)
 def bad_request(err):
