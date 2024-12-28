@@ -7,6 +7,8 @@ git {% extends "base.html" %}
 <script src="{{ url_for('static', filename='lab7/main.js') }}"></script>
 {% endblock %}
 
+
+
 {% block main %}
     <h1>Список фильмов</h1>
 
@@ -23,7 +25,7 @@ git {% extends "base.html" %}
     </table>
 
 
-    
+
     <button class="add-film" onclick="addFilm()">Добавить фильм</button>
 
     <div class="modal">
