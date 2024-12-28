@@ -6,6 +6,7 @@ from lab3 import lab3
 from lab4 import lab4
 from lab5 import lab5  # Подключаем код 5-ой лабораторной
 from lab6 import lab6  # Подключаем код 6-ой лабораторной
+from lab7 import lab7
 
 app = Flask(__name__)
 
@@ -17,6 +18,7 @@ app.register_blueprint(lab3)
 app.register_blueprint(lab4)
 app.register_blueprint(lab5)  
 app.register_blueprint(lab6)  # Регистрируем Blueprint lab6
+app.register_blueprint(lab7)
 
 @app.route("/")
 @app.route("/index")
@@ -27,6 +29,7 @@ def index():
     lab4_url = url_for("lab4.lab4_main")
     lab5_url = url_for("lab5.lab")  # Ссылка на 5-ю лабораторную
     lab6_url = url_for("lab6.lab")  # Ссылка на 6-ю лабораторную
+    lab7_url = url_for("lab7.lab") 
     css_path = url_for("static", filename="lab1/lab1.css")
     return f'''
 <!doctype html>
@@ -46,6 +49,7 @@ def index():
             <li><a href="{lab4_url}">Четвертая лабораторная</a></li>
             <li><a href="{lab5_url}">Пятая лабораторная</a></li>
             <li><a href="{lab6_url}">Шестая лабораторная</a></li>
+            <li><a href="{lab7_url}">Седьмая лабораторная</a></li>
         </ul>
         <footer>
             <p>ФИО: Афанасов Геракл Георгиевич</p>
