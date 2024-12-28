@@ -158,6 +158,8 @@ def edit_article(article_id):
     return redirect('/lab8/articles/')
 
 
+
+
 @lab8.route('/lab8/articles/delete/<int:article_id>', methods=['POST'])
 @login_required
 def delete_article(article_id):
