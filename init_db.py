@@ -13,7 +13,6 @@ cur.execute('''
     )
 ''')
 
-
 # Создание таблицы articles
 cur.execute('''
     CREATE TABLE IF NOT EXISTS articles (
@@ -35,6 +34,17 @@ cur.execute('''
         article_id INTEGER NOT NULL,
         FOREIGN KEY (user_id) REFERENCES users (id),
         FOREIGN KEY (article_id) REFERENCES articles (id)
+    )
+''')
+
+# Создание таблицы films
+cur.execute('''
+    CREATE TABLE IF NOT EXISTS films (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        title_ru TEXT NOT NULL,
+        film_year INTEGER NOT NULL,
+        description TEXT NOT NULL
     )
 ''')
 

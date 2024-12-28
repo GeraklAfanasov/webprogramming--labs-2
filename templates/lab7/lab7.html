@@ -4,35 +4,11 @@
 
 {% block script %}
 <script src="{{ url_for('static', filename='lab7/main.js') }}"></script>
-<style>
-    /* Стили для таблицы и модального окна */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-    th, td {
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
-    th {
-        background-color: #f2f2f2;
-    }
-    .modal {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-</style>
 {% endblock %}
 
 {% block main %}
     <h1>Список фильмов</h1>
+
     <table>
         <thead>
             <tr>
@@ -45,7 +21,7 @@
         <tbody id="film-list"></tbody>
     </table>
 
-    <button onclick="addFilm()">Добавить фильм</button>
+    <button class="add-film" onclick="addFilm()">Добавить фильм</button>
 
     <div class="modal">
         <input type="hidden" id="id">
@@ -57,3 +33,4 @@
         <button onclick="cancel()">Отмена</button>
     </div>
 {% endblock %}
+

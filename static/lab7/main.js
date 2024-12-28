@@ -11,14 +11,36 @@ function fillFilmList() {
                     <td>${film.title}</td>
                     <td>${film.film_year}</td>
                     <td>
-                        <button onclick="editFilm(${film.id})">Редактировать</button>
-                        <button onclick="deleteFilm(${film.id})">Удалить</button>
+                        <button class="edit" onclick="editFilm(${film.id})">Редактировать</button>
+                        <button class="delete" onclick="deleteFilm(${film.id})">Удалить</button>
                     </td>
                 `;
                 filmList.appendChild(row);
             });
         });
 }
+
+// function fillFilmList() {
+//     fetch('/lab7/rest-api/films/')
+//         .then(response => response.json())
+//         .then(data => {
+//             const filmList = document.getElementById('film-list');
+//             filmList.innerHTML = '';
+//             data.forEach(film => {
+//                 const row = document.createElement('tr');
+//                 row.innerHTML = `
+//                     <td>${film.title_ru}</td>
+//                     <td>${film.title}</td>
+//                     <td>${film.film_year}</td>
+//                     <td>
+//                         <button onclick="editFilm(${film.id})">Редактировать</button>
+//                         <button onclick="deleteFilm(${film.id})">Удалить</button>
+//                     </td>
+//                 `;
+//                 filmList.appendChild(row);
+//             });
+//         });
+// }
 
 function addFilm() {
     document.getElementById('id').value = '';
@@ -53,12 +75,23 @@ function sendFilm() {
         },
         body: JSON.stringify(filmData)
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => { throw err; });
+        }
+        return response.json();
+    })
     .then(data => {
         document.querySelector('.modal').style.display = 'none';
         fillFilmList();
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+        let errorMessage = 'Ошибка:\n';
+        for (const [field, message] of Object.entries(error)) {
+            errorMessage += `${field}: ${message}\n`;
+        }
+        alert(errorMessage);
+    });
 }
 
 function editFilm(id) {

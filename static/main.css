@@ -1,4 +1,187 @@
+/* Общие стили для body */
 body {
+    background-color: #f0f0f0;
+    color: #333;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+}
+
+/* Стили для header */
+header {
+    background-color: #4a90e2;
+    color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Стили для footer */
+footer {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px;
+    margin-top: auto;
+}
+
+/* Стили для заголовков */
+h1 {
+    color: #4a90e2;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для изображений */
+img {
+    width: 150px;
+    height: auto;
+    border: 2px solid #4a90e2;
+    border-radius: 10px;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Стили для списков */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+}
+
+/* Стили для ссылок */
+a {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #7a4ae2;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+a:hover {
+    background-color: #357abd;
+}
+
+/* Стили для таблицы */
+table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Стили для шапки таблицы */
+th {
+    background-color: #4a90e2;
+    color: white;
+    padding: 15px;
+    font-size: 1.2em;
+    text-align: left;
+}
+
+/* Стили для ячеек таблицы */
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 1em;
+    color: #333;
+}
+
+/* Стили для строк таблицы при наведении */
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Стили для кнопок "Редактировать" и "Удалить" */
+button {
+    padding: 8px 12px;
+    margin: 2px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+button.edit {
+    background-color: #4a90e2;
+    color: white;
+}
+
+button.delete {
+    background-color: #e24a4a;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* Стили для кнопки "Добавить фильм" */
+button.add-film {
+    background-color: #7a4ae2;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+button.add-film:hover {
+    background-color: #6a3ac2;
+}
+
+/* Стили для модального окна */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.modal label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.modal input,
+.modal textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.modal button {
+    margin-right: 10px;
+}
+
+/* body {
     background-color: #f0f0f0;
     color: #333;
     font-family: Arial, sans-serif;
@@ -61,4 +244,4 @@ a {
 
 a:hover {
     background-color: #357abd;
-}
+} */
